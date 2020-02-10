@@ -1,28 +1,28 @@
-import React, {Component, Fragment} from 'react';
-import {BrowserRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import React, { Component, Fragment } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-import {withStyles, createStyles} from '@material-ui/core/styles';
+import { withStyles, createStyles } from "@material-ui/core/styles";
 
 // Action Creators.
-import {fetchUser} from '../actions';
+import { fetchUser } from "../actions";
 
 // Components.
-import Dashboard from './Dashboard/Dashboard';
-import Login from './Dashboard/Login';
+import Dashboard from "./Dashboard/Dashboard";
+import Login from "./Dashboard/Login";
 
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop";
 
 // Component style.
-const styles = (theme) =>
+const styles = theme =>
   createStyles({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
-      color: '#00EAA6',
-    },
+      color: "#00EAA6"
+    }
   });
 
 class App extends Component {
@@ -37,17 +37,11 @@ class App extends Component {
   // Render the navbar depending the auth state.
   authContentRender() {
     // const {user} = this.props;
-    const {user, classes} = this.props;
+    const { user, classes } = this.props;
 
     switch (user) {
       case null:
-        return (
-          <Fragment>
-            <Backdrop className={classes.backdrop} open={true}>
-              <CircularProgress color="inherit" />
-            </Backdrop>
-          </Fragment>
-        );
+        return <Fragment></Fragment>;
       case false:
         return (
           <Fragment>
@@ -76,9 +70,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({user}) => {
-  return {user};
+const mapStateToProps = ({ user }) => {
+  return { user };
 };
 
 // Connect this component to redux and the action creators.
-export default connect(mapStateToProps, {fetchUser})(withStyles(styles)(App));
+export default connect(mapStateToProps, { fetchUser })(withStyles(styles)(App));
