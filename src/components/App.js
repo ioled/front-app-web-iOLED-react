@@ -10,6 +10,7 @@ import { fetchUser } from "../actions";
 // Components.
 import Dashboard from "./Dashboard/Dashboard";
 import Login from "./Dashboard/Login";
+import Payment from "./Payment/Payment";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -41,7 +42,11 @@ class App extends Component {
 
     switch (user) {
       case null:
-        return <Fragment></Fragment>;
+        return (
+          <Fragment>
+            <Payment />
+          </Fragment>
+        );
       case false:
         return (
           <Fragment>
