@@ -37,12 +37,17 @@ class App extends Component {
 
   // Render the navbar depending the auth state.
   authContentRender() {
-    // const {user} = this.props;
     const { user, classes } = this.props;
 
     switch (user) {
       case null:
-        return <Fragment>{/* <Payment /> */}</Fragment>;
+        return (
+          <Fragment>
+            <Backdrop className={classes.backdrop} open={true}>
+              <CircularProgress color="inherit" />
+            </Backdrop>
+          </Fragment>
+        );
       case false:
         return (
           <Fragment>
