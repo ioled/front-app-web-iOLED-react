@@ -42,11 +42,7 @@ class App extends Component {
 
     switch (user) {
       case null:
-        return (
-          <Fragment>
-            <Payment />
-          </Fragment>
-        );
+        return <Fragment>{/* <Payment /> */}</Fragment>;
       case false:
         return (
           <Fragment>
