@@ -8,7 +8,7 @@
 #
 VERSION := $$(cat package.json | grep version | sed 's/"/ /g' | awk {'print $$3'})
 SVC=ioled-frontend-app
-PORT=5000
+PORT=3000
 # REGISTRY_URL=gcr.io/ioled-dev-262215
 
 version v:

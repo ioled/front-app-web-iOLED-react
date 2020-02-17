@@ -2,6 +2,13 @@
 import axios from "axios";
 //@ts-check
 
+let tokenStr =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAxMzEyODk5NDkxMjY0ODU3NTY3IiwiaWF0IjoxNTgwNzg3NzYzfQ.7ebKaup2adVIZLiyBHj4Mz2tNRi430uOQmwJJ4EZRZk";
+
+const userAPIUrl = "http://localhost:5000/user/currentuser";
+
+const devicesAPIUrl = "http://localhost:5000/user/devices";
+
 /**
  * Sleep function. Must be called inside async function.
  * @param {number} ms Time in milliseconds.
@@ -14,16 +21,13 @@ function sleep(ms) {
 /**
  * Get the current authenticated user.
  */
+
 export const fetchUser = () => async dispatch => {
   for (let i = 0; i < 5; i++) {
     try {
       /**@type {{data: {name: string, email: string, photo: string, asd: string}}} */
-      // const res = await axios.get('/user');
-      let webApiUrl =
-        "https://api-gateway-dot-ioled-dev-262215.appspot.com/user/currentuser";
-      let tokenStr =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTE3MTM0NTc2MTg5NTUwOTY0OTU4IiwiaWF0IjoxNTgxNDczODgzfQ.86ZjE_ihnjxnvDZbXB7UH2o75XLKeeFtMKFgXmTIy8Y";
-      const res = await axios.get(webApiUrl, {
+
+      const res = await axios.get(userAPIUrl, {
         headers: { Authorization: `Bearer ${tokenStr}` }
       });
       dispatch({ type: "FETCH_USER", payload: res.data });
@@ -42,7 +46,9 @@ export const fetchDevices = () => async dispatch => {
   for (let i = 0; i < 5; i++) {
     try {
       /** @type {{data: {devices: array}}} */
-      const res = await axios.get("/devices");
+      const res = await axios.get(devicesAPIUrl, {
+        headers: { Authorization: `Bearer ${tokenStr}` }
+      });
       dispatch({ type: "LIST_DEVICES", payload: res.data.devices });
       return;
     } catch (err) {
