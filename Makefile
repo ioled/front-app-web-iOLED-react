@@ -23,6 +23,6 @@ clean c:
 
 run r:
 	@echo "[running] Running frontend services..."
-	@PORT=$(PORT) npm start
+	@PORT=$(PORT) sudo npm start
 
 .PHONY: version v prepare pre clean c run r stop s
