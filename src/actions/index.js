@@ -3,7 +3,7 @@ import axios from "axios";
 //@ts-check
 
 let tokenStr =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAxMzEyODk5NDkxMjY0ODU3NTY3IiwiaWF0IjoxNTgwNzg3NzYzfQ.7ebKaup2adVIZLiyBHj4Mz2tNRi430uOQmwJJ4EZRZk";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTE3MjgyNjA2Njg3NzI5NDIwMTI3IiwiaWF0IjoxNTgyMDQwNDgyfQ.ZzDbNpp8TFwQClieSqMR2HKz6fw8I93p1oVrPIETWWo";
 
 const userAPIUrl = "http://localhost:5000/user/currentuser";
 
