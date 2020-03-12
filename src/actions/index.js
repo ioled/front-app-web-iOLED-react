@@ -1,13 +1,10 @@
 // ----- Action Creators -----
-import axios from "axios";
+import axios from 'axios';
 //@ts-check
 
-let tokenStr =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMTAxMzEyODk5NDkxMjY0ODU3NTY3IiwiaWF0IjoxNTgwNzg3NzYzfQ.7ebKaup2adVIZLiyBHj4Mz2tNRi430uOQmwJJ4EZRZk";
+const userAPIUrl = 'http://localhost:5000/user/currentUser';
 
-const userAPIUrl = "http://localhost:5000/user/currentuser";
-
-const devicesAPIUrl = "http://localhost:5000/user/devices";
+const devicesAPIUrl = 'http://localhost:5000/user/devices';
 
 /**
  * Sleep function. Must be called inside async function.
@@ -15,22 +12,22 @@ const devicesAPIUrl = "http://localhost:5000/user/devices";
  * @returns {Promise} Return promise to use await.
  */
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * Get the current authenticated user.
  */
 
-export const fetchUser = () => async dispatch => {
+export const fetchUser = () => async (dispatch) => {
   for (let i = 0; i < 5; i++) {
     try {
       /**@type {{data: {name: string, email: string, photo: string, asd: string}}} */
 
       const res = await axios.get(userAPIUrl, {
-        headers: { Authorization: `Bearer ${tokenStr}` }
+        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
-      dispatch({ type: "FETCH_USER", payload: res.data });
+      dispatch({type: 'FETCH_USER', payload: res.data});
       return;
     } catch (err) {
       console.log(err.response);
@@ -42,14 +39,14 @@ export const fetchUser = () => async dispatch => {
 /**
  * Get the list of all devices for an user.
  */
-export const fetchDevices = () => async dispatch => {
+export const fetchDevices = () => async (dispatch) => {
   for (let i = 0; i < 5; i++) {
     try {
       /** @type {{data: {devices: array}}} */
       const res = await axios.get(devicesAPIUrl, {
-        headers: { Authorization: `Bearer ${tokenStr}` }
+        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
-      dispatch({ type: "LIST_DEVICES", payload: res.data.devices });
+      dispatch({type: 'LIST_DEVICES', payload: res.data.devices});
       return;
     } catch (err) {
       console.log(err.response);
@@ -62,12 +59,12 @@ export const fetchDevices = () => async dispatch => {
  * Register a new device.
  * @param {string} deviceId The id of the device.
  */
-export const registerDevice = deviceId => async dispatch => {
+export const registerDevice = (deviceId) => async (dispatch) => {
   try {
     /** @type {{status: number}} */
-    const res = await axios.post("/devices", { deviceId });
+    const res = await axios.post('/devices', {deviceId});
     if (res.status === 201) {
-      dispatch({ type: "REGISTER_DEVICE" });
+      dispatch({type: 'REGISTER_DEVICE'});
       dispatch(fetchDevices());
     }
   } catch (err) {
@@ -80,13 +77,20 @@ export const registerDevice = deviceId => async dispatch => {
  * @param {{config: {duty: number, state: boolean, timerOn: number, timeOff: number, timerState: boolean, alias: string, }}} device Device config blob.
  * @param {number} index The index of the device in the list.
  */
-export const updateDeviceConfig = (device, index) => async dispatch => {
+export const updateDeviceConfig = (device, index) => async (dispatch) => {
+  console.log('Update device config...');
   try {
     // Add await here to wait for the response to update the state of the switch component.
-    await axios.put(`/devices/${device.deviceId}`, { device });
-    dispatch({ type: "UPDATE_DEVICE", payload: { device, index } });
+    await axios.put(
+      `http://localhost:5000/deviceControl/device/${device.deviceId}/config`,
+      {device},
+      {
+        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+      },
+    );
+    dispatch({type: 'UPDATE_DEVICE', payload: {device, index}});
   } catch (err) {
-    console.log("Error actualizando dispositivo:", err.response);
+    console.log('Error actualizando dispositivo:', err.response);
   }
 };
 
@@ -95,7 +99,7 @@ export const updateDeviceConfig = (device, index) => async dispatch => {
  * @param {{deviceId: string}} device The device object
  * @param {number} index Device index in the list.
  */
-export const deleteDevice = (device, index) => async dispatch => {
+export const deleteDevice = (device, index) => async (dispatch) => {
   try {
     await axios.delete(`/devices/${device.deviceId}`);
     dispatch(fetchDevices());
@@ -109,14 +113,15 @@ export const deleteDevice = (device, index) => async dispatch => {
  * @param {{deviceId: string}} device The device object
  * @param {number} index Device index in the list.
  */
-export const getDeviceState = (device, index) => async dispatch => {
+export const getDeviceState = (device, index) => async (dispatch) => {
   while (true) {
-    console.log("Getting device state...");
-
+    console.log('Getting device state...');
     try {
-      const res = await axios.get(`/devices/${device.deviceId}`);
-      const { state } = res.data;
-      dispatch({ type: "GET_STATE", payload: { state, index } });
+      const res = await axios.get(`http://localhost:5000/deviceControl/device/${device.deviceId}/state`, {
+        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+      });
+      const state = res.data.data;
+      dispatch({type: 'GET_STATE', payload: {state, index}});
     } catch (err) {
       console.log(err);
     }
@@ -128,12 +133,12 @@ export const getDeviceState = (device, index) => async dispatch => {
  * Change alias ID
  * @param {string} deviceId The id of the device.
  */
-export const changeAlias = device => async dispatch => {
+export const changeAlias = (device) => async (dispatch) => {
   try {
-    await axios.post(`/devices/${device.deviceId}`, { device });
-    dispatch({ type: "UPDATE_ALIAS" });
+    await axios.post(`/devices/${device.deviceId}`, {device});
+    dispatch({type: 'UPDATE_ALIAS'});
   } catch (err) {
-    console.log("Error actualizando alias:", err.response);
+    console.log('Error actualizando alias:', err.response);
   }
 };
 
@@ -141,18 +146,18 @@ export const changeAlias = device => async dispatch => {
  * Change alias ID
  * @param {string} inputForm image form
  */
-export const uploadImage = formdata => async dispatch => {
+export const uploadImage = (formdata) => async (dispatch) => {
   try {
     const res = await axios({
-      method: "post",
-      url: "/add",
+      method: 'post',
+      url: '/add',
       data: formdata,
-      config: { headers: { "Content-Type": "multipart/form-data" } }
+      config: {headers: {'Content-Type': 'multipart/form-data'}},
     });
-    dispatch({ type: "UPLOAD_IMAGE" });
+    dispatch({type: 'UPLOAD_IMAGE'});
     return res.data.imageURL;
   } catch (err) {
-    console.log("Error upload image:", err.response);
+    console.log('Error upload image:', err.response);
   }
 };
 
@@ -173,8 +178,7 @@ export const uploadImage = formdata => async dispatch => {
  * Get the data history of devices
  * @param {string} deviceId The id of the device.
  */
-const URL_H =
-  "https://us-central1-ioled-dev-262215.cloudfunctions.net/historyApi";
+const URL_H = 'https://us-central1-ioled-dev-262215.cloudfunctions.net/historyApi';
 
 /*
  * day: 1, week: 2, month: 3
@@ -200,7 +204,7 @@ export const getHistory = async (device, time) => {
   }
 };
 
-export const changeMenu = menu => async dispatch => {
-  dispatch({ type: "CHANGE_MENU", payload: { menu } });
+export const changeMenu = (menu) => async (dispatch) => {
+  dispatch({type: 'CHANGE_MENU', payload: {menu}});
   return;
 };
