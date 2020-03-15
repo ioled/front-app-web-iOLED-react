@@ -42,6 +42,10 @@ class DeviceList extends Component {
       <Grid container justify="center">
         <Grid spacing={10} alignItems="center" justify="center" container className={classes.grid}>
           {this.renderComponentList()}
+
+          <Box className={classes.addDevice}>
+            <img src={plusSymbol} height="30px" width="30px" alt="plus-symbol" />
+          </Box>
         </Grid>
       </Grid>
     );
