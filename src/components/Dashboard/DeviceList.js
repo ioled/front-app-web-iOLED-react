@@ -27,9 +27,11 @@ class DeviceList extends Component {
 
   // Map every device in the list to a Device component.
   renderComponentList = () => {
+    console.log(this.props);
+
     const {devices} = this.props;
     return devices.map((device, key) => {
-      return <Device key={device.deviceId} index={key} />;
+      // return <Device key={device.deviceId} index={key} />;
     });
   };
 

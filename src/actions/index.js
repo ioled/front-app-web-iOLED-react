@@ -27,7 +27,7 @@ export const fetchUser = () => async (dispatch) => {
       const res = await axios.get(userAPIUrl, {
         headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
-      dispatch({type: 'FETCH_USER', payload: res.data});
+      dispatch({type: 'FETCH_USER', payload: res.data.currentUser});
       return;
     } catch (err) {
       console.log(err.response);
@@ -46,7 +46,7 @@ export const fetchDevices = () => async (dispatch) => {
       const res = await axios.get(devicesAPIUrl, {
         headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
-      dispatch({type: 'LIST_DEVICES', payload: res.data.devices});
+      dispatch({type: 'LIST_DEVICES', payload: res.data.userDevices});
       return;
     } catch (err) {
       console.log(err.response);
