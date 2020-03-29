@@ -8,7 +8,7 @@ import {withStyles, createStyles} from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import CameraIcon from '@material-ui/icons/Camera';
+// import CameraIcon from '@material-ui/icons/Camera';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
 

@@ -119,16 +119,16 @@ class AliasContainer extends Component {
   };
 
   // Map device state to configuration readable by the backend.
-  stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceId) => {
-    return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceId};
+  stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceID) => {
+    return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceID};
   };
 
   // Modify the state of LED.
   switchOn = async (event) => {
     this.setState({snackOpen: false});
     this.setState({trans: true});
-    const {duty, timerOn, timerOff, timerState, alias, deviceId, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, event.target.checked, timerOn, timerOff, timerState, alias, deviceId);
+    const {duty, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
+    const deviceConfig = this.stateToConfig(duty, event.target.checked, timerOn, timerOff, timerState, alias, deviceID);
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});

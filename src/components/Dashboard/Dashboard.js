@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
+import {connect} from 'react-redux';
 
 // material-ui components.
 import {withStyles} from '@material-ui/core/styles';
@@ -6,6 +7,7 @@ import {withStyles} from '@material-ui/core/styles';
 // React components.
 import Navbar from './Navbar';
 import DeviceList from './DeviceList';
+import Device from '../Device/Device';
 import SimpleBottomNavigation from './SimpleBottom';
 
 // Dashboard component styles.
@@ -17,18 +19,42 @@ const styles = (theme) => ({
 });
 
 class DashBoard extends Component {
+  // Render the navbar depending the auth state.
+  deviceRender() {
+    const {id = null} = this.props.ux;
+
+    switch (id) {
+      case null:
+        return (
+          <Fragment>
+            <Navbar />
+            <DeviceList />
+            <SimpleBottomNavigation index={0} />
+          </Fragment>
+        );
+      default:
+        return <Fragment></Fragment>;
+      case id:
+        return (
+          <Fragment>
+            <Navbar />
+            <Device index={id} />
+            <SimpleBottomNavigation index={0} />
+          </Fragment>
+        );
+    }
+  }
+
   render() {
     // Get the styles classes from props.
     const {classes} = this.props;
 
-    return (
-      <div className={classes.root}>
-        <Navbar />
-        <DeviceList />
-        <SimpleBottomNavigation index={0} />
-      </div>
-    );
+    return <div className={classes.root}>{this.deviceRender()}</div>;
   }
 }
 
-export default withStyles(styles)(DashBoard);
+const mapStateToProps = ({ux}) => {
+  return {ux};
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(DashBoard));

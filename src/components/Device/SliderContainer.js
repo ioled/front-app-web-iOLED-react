@@ -82,8 +82,8 @@ class SliderContainer extends Component {
   };
 
   // Map device state to configuration readable by the backend.
-  stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceId) => {
-    return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceId};
+  stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceID) => {
+    return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceID};
   };
 
   /* Change the intensity of the led.
@@ -100,7 +100,7 @@ class SliderContainer extends Component {
     if (this.state.tempDuty !== this.props.duty) {
       this.setState({trans: true});
       this.setState({snackOpen: false});
-      const {state, timerOn, timerOff, timerState, deviceId, alias, index} = this.props;
+      const {state, timerOn, timerOff, timerState, deviceID, alias, index} = this.props;
       const deviceConfig = this.stateToConfig(
         this.state.tempDuty,
         state,
@@ -108,7 +108,7 @@ class SliderContainer extends Component {
         timerOff,
         timerState,
         alias,
-        deviceId,
+        deviceID,
       );
       await this.props.updateDeviceConfig(deviceConfig, index);
       if (this.state.tempDuty !== this.props.duty) {

@@ -71,14 +71,14 @@ const defaultProps = {
 
 class StateContainer extends Component {
   componentDidMount() {
-    const {deviceId, index} = this.props;
-    this.props.getDeviceState({deviceId}, index);
+    const {deviceID, index} = this.props;
+    this.props.getDeviceState({deviceID}, index, true);
   }
 
   render() {
     const {classes} = this.props;
     const {temp = 0, hum = 0} = this.props;
-    const {state, duty} = this.props;
+    const {state, duty, power} = this.props;
 
     return (
       <Box>
@@ -89,7 +89,7 @@ class StateContainer extends Component {
 
             <div className={classes.state}>
               <Typography className={classes.stateNumber} variant="h6">
-                {(duty * 200).toFixed() * state}
+                {(duty * power).toFixed() * state}
               </Typography>
               <Typography className={classes.stateUnity}> W</Typography>
             </div>

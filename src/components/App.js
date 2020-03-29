@@ -1,29 +1,28 @@
-import React, { Component, Fragment } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import React, {Component, Fragment} from 'react';
+import {BrowserRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import { withStyles, createStyles } from "@material-ui/core/styles";
+// material-ui components.
+import {withStyles, createStyles} from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 // Action Creators.
-import { fetchUser } from "../actions";
+import {fetchUser} from '../actions';
 
 // Components.
-import Dashboard from "./Dashboard/Dashboard";
-import Login from "./Dashboard/Login";
-import Payment from "./Payment/Payment";
-
-import CssBaseline from "@material-ui/core/CssBaseline";
-
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Backdrop from "@material-ui/core/Backdrop";
+import Dashboard from './Dashboard/Dashboard';
+import Login from './Dashboard/Login';
 
 // Component style.
-const styles = theme =>
+const styles = (theme) =>
   createStyles({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
-      color: "#00EAA6"
-    }
+      color: '#00EAA6',
+    },
   });
 
 class App extends Component {
@@ -37,7 +36,7 @@ class App extends Component {
 
   // Render the navbar depending the auth state.
   authContentRender() {
-    const { user, classes } = this.props;
+    const {user, classes} = this.props;
 
     switch (user) {
       case null:
@@ -76,9 +75,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => {
-  return { user };
+const mapStateToProps = ({user}) => {
+  return {user};
 };
 
 // Connect this component to redux and the action creators.
-export default connect(mapStateToProps, { fetchUser })(withStyles(styles)(App));
+export default connect(mapStateToProps, {fetchUser})(withStyles(styles)(App));

@@ -61,7 +61,7 @@ class Login extends Component {
           </StyledButton>
         </div>
         <Box mt={8} className={classes.version}>
-          iOLED V1.01 2020
+          iOLED 1.0.2 2020
         </Box>
       </Box>
     );

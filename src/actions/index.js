@@ -2,9 +2,7 @@
 import axios from 'axios';
 //@ts-check
 
-const userAPIUrl = 'http://localhost:5000/user/currentUser';
-
-const devicesAPIUrl = 'http://localhost:5000/user/devices';
+const {GATEWAY_URL} = require('../config');
 
 /**
  * Sleep function. Must be called inside async function.
@@ -18,13 +16,14 @@ function sleep(ms) {
 /**
  * Get the current authenticated user.
  */
-
 export const fetchUser = () => async (dispatch) => {
+  const query = '/user/currentUser';
+
   for (let i = 0; i < 5; i++) {
     try {
       /**@type {{data: {name: string, email: string, photo: string, asd: string}}} */
 
-      const res = await axios.get(userAPIUrl, {
+      const res = await axios.get(`${GATEWAY_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
       dispatch({type: 'FETCH_USER', payload: res.data.currentUser});
@@ -40,10 +39,12 @@ export const fetchUser = () => async (dispatch) => {
  * Get the list of all devices for an user.
  */
 export const fetchDevices = () => async (dispatch) => {
+  const query = '/user/devices';
+
   for (let i = 0; i < 5; i++) {
     try {
       /** @type {{data: {devices: array}}} */
-      const res = await axios.get(devicesAPIUrl, {
+      const res = await axios.get(`${GATEWAY_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
       });
       dispatch({type: 'LIST_DEVICES', payload: res.data.userDevices});
@@ -78,11 +79,12 @@ export const registerDevice = (deviceId) => async (dispatch) => {
  * @param {number} index The index of the device in the list.
  */
 export const updateDeviceConfig = (device, index) => async (dispatch) => {
+  const query = '/deviceControl/device/';
   console.log('Update device config...');
   try {
     // Add await here to wait for the response to update the state of the switch component.
     await axios.put(
-      `http://localhost:5000/deviceControl/device/${device.deviceId}/config`,
+      `${GATEWAY_URL}${query}${device.deviceID}/config`,
       {device},
       {
         headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
@@ -114,19 +116,18 @@ export const deleteDevice = (device, index) => async (dispatch) => {
  * @param {number} index Device index in the list.
  */
 export const getDeviceState = (device, index) => async (dispatch) => {
-  while (true) {
-    console.log('Getting device state...');
-    try {
-      const res = await axios.get(`http://localhost:5000/deviceControl/device/${device.deviceId}/state`, {
-        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
-      });
-      const state = res.data.data;
-      dispatch({type: 'GET_STATE', payload: {state, index}});
-    } catch (err) {
-      console.log(err);
-    }
-    await sleep(5000);
+  const query = '/deviceControl/device/';
+  console.log('Getting device state: ' + device.deviceID);
+  try {
+    const res = await axios.get(`${GATEWAY_URL}${query}${device.deviceID}/state`, {
+      headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+    });
+    const state = res.data.deviceState;
+    dispatch({type: 'GET_STATE', payload: {state, index}});
+  } catch (err) {
+    console.log(err);
   }
+  await sleep(5000);
 };
 
 /**
@@ -204,7 +205,13 @@ export const getHistory = async (device, time) => {
   }
 };
 
+// UX actions
 export const changeMenu = (menu) => async (dispatch) => {
   dispatch({type: 'CHANGE_MENU', payload: {menu}});
+  return;
+};
+
+export const changeID = (id) => async (dispatch) => {
+  dispatch({type: 'CHANGE_ID', payload: {id}});
   return;
 };

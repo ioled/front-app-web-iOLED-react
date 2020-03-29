@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import StateContainer from './StateContainer';
 import AliasContainer from './AliasContainer';
 import SliderContainer from './SliderContainer';
-import TimerContainer from './TimerContainer';
+// import TimerContainer from './TimerContainer';
 import PlotContainer from './PlotContainer';
 
 // material-ui components.
@@ -42,7 +42,7 @@ const styles = (theme) =>
 class Device extends Component {
   // Render the navbar depending the auth state.
   plotRender() {
-    const {menu = 0} = this.props.ui;
+    const {menu = 0} = this.props.ux;
     const {classes} = this.props;
 
     switch (menu) {
@@ -54,13 +54,13 @@ class Device extends Component {
             </Backdrop>
           </Fragment>
         );
-      case 0:
+      default:
         return (
           <Fragment>
             <AliasContainer index={this.props.index} />
             <StateContainer index={this.props.index} />
             <SliderContainer index={this.props.index} />
-            <TimerContainer index={this.props.index} />
+            {/* <TimerContainer index={this.props.index} /> */}
           </Fragment>
         );
       case 1:
@@ -82,8 +82,8 @@ class Device extends Component {
   }
 }
 
-const mapStateToProps = ({ui}) => {
-  return {ui};
+const mapStateToProps = ({ux}) => {
+  return {ux};
 };
 
 export default connect(mapStateToProps)(withStyles(styles)(Device));

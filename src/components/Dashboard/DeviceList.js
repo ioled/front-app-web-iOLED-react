@@ -2,16 +2,14 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 // Action creators.
-import {fetchDevices} from '../../actions';
+import {fetchDevices, changeID} from '../../actions';
 
 // material-ui components.
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {Box} from '@material-ui/core';
+import {Button} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-
-// React componenets.
-import Device from '../Device/Device';
 
 // Icons
 import greenCircle from './icons/green-circle.png';
@@ -107,14 +105,22 @@ class DeviceList extends Component {
     this.props.fetchDevices();
   }
 
-  // Map every device in the list to a Device component.
+  // Map every device in the list to a button component.
   renderComponentList = () => {
     const {devices, classes} = this.props;
-    console.log(devices);
+
     return devices.map((device, key) => {
       if (device.state === true) {
         return (
-          <Box key={device.deviceID} index={key} className={classes.deviceBoxEnabled}>
+          <Button
+            key={device.deviceID}
+            index={key}
+            className={classes.deviceBoxEnabled}
+            onClick={() => {
+              this.setState({id: key});
+              this.props.changeID(key);
+            }}
+          >
             <Box className={classes.leftSubBox}>{device.alias}</Box>
             <Box className={classes.rightSubBox}>
               <span className={classes.flexSpanEnabled}>{device.duty * 100}%</span>
@@ -122,11 +128,19 @@ class DeviceList extends Component {
               <span className={classes.flexSpanEnabled}> {device.duty * device.power * device.state}W </span>
               <img src={greenCircle} height="30px" width="30px" alt="green-circle" />
             </Box>
-          </Box>
+          </Button>
         );
       } else {
         return (
-          <Box key={device.deviceID} index={key} className={classes.deviceBoxDisabled}>
+          <Button
+            key={device.deviceID}
+            index={key}
+            className={classes.deviceBoxEnabled}
+            onClick={() => {
+              this.setState({id: key});
+              this.props.changeID(key);
+            }}
+          >
             <Box className={classes.leftSubBox}>{device.alias}</Box>
             <Box className={classes.rightSubBox}>
               <span className={classes.flexSpanDisabled}>{device.duty * 100}%</span>
@@ -134,7 +148,7 @@ class DeviceList extends Component {
               <span className={classes.flexSpanDisabled}> {device.duty * device.power * device.state}W </span>
               <img src={grayCircle} height="18px" width="18px" alt="gray-circle" />
             </Box>
-          </Box>
+          </Button>
         );
       }
     });
@@ -163,4 +177,4 @@ const mapStateToProps = ({devices}) => {
   return {devices};
 };
 
-export default connect(mapStateToProps, {fetchDevices})(withStyles(styles)(DeviceList));
+export default connect(mapStateToProps, {fetchDevices, changeID})(withStyles(styles)(DeviceList));
