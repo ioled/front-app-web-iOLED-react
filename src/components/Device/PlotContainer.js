@@ -177,12 +177,12 @@ class LineChart extends Component {
   };
 
   handleChange = async (event, value) => {
-    const {deviceId} = this.props;
+    const {deviceID} = this.props;
 
     this.setState({time: event.target.value});
 
     this.setState({trans: true});
-    const data = await getHistory({deviceId}, event.target.value);
+    const data = await getHistory({deviceID}, event.target.value);
     this.setState({trans: false});
 
     const ctx_temp = document.getElementById('temperature').getContext('2d');
@@ -236,11 +236,11 @@ class LineChart extends Component {
   };
 
   async componentDidMount() {
-    const {deviceId} = this.props;
+    const {deviceID} = this.props;
     const {time} = this.state;
 
     this.setState({trans: true});
-    const data = await getHistory({deviceId}, time);
+    const data = await getHistory({deviceID}, time);
     this.setState({trans: false});
 
     const ctx_temp = document.getElementById('temperature').getContext('2d');

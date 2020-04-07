@@ -43,11 +43,6 @@ const StyledButton = styled(Button)`
 `;
 
 class Login extends Component {
-  responseGoogle = async (res) => {
-    console.log('responseGoogle');
-    await this.props.oauthGoogle(res.token);
-  };
-
   render() {
     const {classes} = this.props;
 
@@ -56,12 +51,13 @@ class Login extends Component {
         <div className={classes.paper}>
           <SvgIcon component={IoledIcon} viewBox="0 0 126 150" fontSize="inherit" className={classes.icon} />
           <SvgIcon component={IoledName} viewBox="0 0 111 27" fontSize="inherit" className={classes.name} />
-          <StyledButton href="/auth/google" type="submit">
+          {/* <StyledButton href="https://test-api-gateway-dot-ioled-dev-262215.appspot.com/auth/google" type="submit"> */}
+          <StyledButton href="http://localhost:5000/auth/google" type="submit">
             Login
           </StyledButton>
         </div>
         <Box mt={8} className={classes.version}>
-          iOLED 1.0.2 2020
+          iOLED V1.0.2 2020
         </Box>
       </Box>
     );

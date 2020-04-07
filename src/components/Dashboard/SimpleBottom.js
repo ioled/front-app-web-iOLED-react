@@ -7,7 +7,7 @@ import {changeMenu} from '../../actions';
 import {withStyles, createStyles} from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import BarChartIcon from '@material-ui/icons/BarChart';
+// import BarChartIcon from '@material-ui/icons/BarChart';
 // import CameraIcon from '@material-ui/icons/Camera';
 
 import SvgIcon from '@material-ui/core/SvgIcon';
@@ -28,14 +28,14 @@ const styles = (theme) =>
   });
 
 class SimpleBottomNavigation extends Component {
-  menuChange = (event, newValue) => {
-    this.setState({menu: newValue});
-    this.props.changeMenu(newValue);
-  };
-
   // Component state.
   state = {
     menu: 0,
+  };
+
+  menuChange = (event, newValue) => {
+    this.setState({menu: newValue});
+    this.props.changeMenu(newValue);
   };
 
   render() {
@@ -45,7 +45,7 @@ class SimpleBottomNavigation extends Component {
     return (
       <BottomNavigation value={menu} onChange={this.menuChange} className={classes.root}>
         <BottomNavigationAction icon={<SvgIcon component={HomeIcon} viewBox="0 0 39 38" />} />
-        <BottomNavigationAction icon={<BarChartIcon color="secondary" />} />
+        {/* <BottomNavigationAction icon={<BarChartIcon color="secondary" />} /> */}
 
         {/* <BottomNavigationAction icon={<CameraIcon color="secondary" />} /> */}
       </BottomNavigation>

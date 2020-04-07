@@ -6,7 +6,7 @@ import StateContainer from './StateContainer';
 import AliasContainer from './AliasContainer';
 import SliderContainer from './SliderContainer';
 // import TimerContainer from './TimerContainer';
-import PlotContainer from './PlotContainer';
+// import PlotContainer from './PlotContainer';
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
@@ -64,11 +64,7 @@ class Device extends Component {
           </Fragment>
         );
       case 1:
-        return (
-          <Fragment>
-            <PlotContainer index={this.props.index} />
-          </Fragment>
-        );
+        return <Fragment></Fragment>;
     }
   }
 

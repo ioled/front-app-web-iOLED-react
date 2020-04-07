@@ -24,7 +24,7 @@ export const fetchUser = () => async (dispatch) => {
       /**@type {{data: {name: string, email: string, photo: string, asd: string}}} */
 
       const res = await axios.get(`${GATEWAY_URL}${query}`, {
-        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
       dispatch({type: 'FETCH_USER', payload: res.data.currentUser});
       return;
@@ -45,7 +45,7 @@ export const fetchDevices = () => async (dispatch) => {
     try {
       /** @type {{data: {devices: array}}} */
       const res = await axios.get(`${GATEWAY_URL}${query}`, {
-        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
       dispatch({type: 'LIST_DEVICES', payload: res.data.userDevices});
       return;
@@ -87,7 +87,7 @@ export const updateDeviceConfig = (device, index) => async (dispatch) => {
       `${GATEWAY_URL}${query}${device.deviceID}/config`,
       {device},
       {
-        headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+        headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       },
     );
     dispatch({type: 'UPDATE_DEVICE', payload: {device, index}});
@@ -101,14 +101,14 @@ export const updateDeviceConfig = (device, index) => async (dispatch) => {
  * @param {{deviceId: string}} device The device object
  * @param {number} index Device index in the list.
  */
-export const deleteDevice = (device, index) => async (dispatch) => {
-  try {
-    await axios.delete(`/devices/${device.deviceId}`);
-    dispatch(fetchDevices());
-  } catch (err) {
-    console.log(err);
-  }
-};
+// export const deleteDevice = (device, index) => async (dispatch) => {
+//   try {
+//     await axios.delete(`/devices/${device.deviceId}`);
+//     dispatch(fetchDevices());
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 /**
  * Get the device state.
@@ -120,7 +120,7 @@ export const getDeviceState = (device, index) => async (dispatch) => {
   console.log('Getting device state: ' + device.deviceID);
   try {
     const res = await axios.get(`${GATEWAY_URL}${query}${device.deviceID}/state`, {
-      headers: {Authorization: `Bearer ${localStorage.getItem('JWT_token')}`},
+      headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
     });
     const state = res.data.deviceState;
     dispatch({type: 'GET_STATE', payload: {state, index}});
@@ -130,14 +130,23 @@ export const getDeviceState = (device, index) => async (dispatch) => {
   await sleep(5000);
 };
 
+function stateToConfig(alias, deviceId) {
+  return {config: {alias}, deviceId};
+}
+
 /**
  * Change alias ID
  * @param {string} deviceId The id of the device.
  */
-export const changeAlias = (device) => async (dispatch) => {
+export const changeAlias = (deviceId, alias) => async (dispatch) => {
+  const query = '/user/changeDevice';
+
+  const deviceConfig = stateToConfig(alias, deviceId);
+
   try {
-    await axios.post(`/devices/${device.deviceId}`, {device});
-    dispatch({type: 'UPDATE_ALIAS'});
+    // Add await here to wait for the response to update firestore DB
+    await axios.post(`${GATEWAY_URL}${query}`, deviceConfig);
+    dispatch({type: 'UPDATE_ALIAS', payload: {deviceConfig}});
   } catch (err) {
     console.log('Error actualizando alias:', err.response);
   }
@@ -185,18 +194,18 @@ const URL_H = 'https://us-central1-ioled-dev-262215.cloudfunctions.net/historyAp
  * day: 1, week: 2, month: 3
  *
  */
-
 export const getHistory = async (device, time) => {
   try {
     var res = 1;
     if (time === 1) {
-      res = await axios.get(`${URL_H}/day/${device.deviceId}`);
+      // console.log(device);
+      res = await axios.get(`${URL_H}/day/${device.deviceID}`);
     }
     if (time === 2) {
-      res = await axios.get(`${URL_H}/week/${device.deviceId}`);
+      res = await axios.get(`${URL_H}/week/${device.deviceID}`);
     }
     if (time === 3) {
-      res = await axios.get(`${URL_H}/month/${device.deviceId}`);
+      res = await axios.get(`${URL_H}/month/${device.deviceID}`);
     }
     return res.data.data;
   } catch (err) {

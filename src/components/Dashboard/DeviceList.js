@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import greenCircle from './icons/green-circle.png';
 import grayCircle from './icons/gray-circle.png';
 
-import plusSymbol from './icons/plus-symbol.png';
+// import plusSymbol from './icons/plus-symbol.png';
 
 // Component style.
 const styles = (theme) => ({
@@ -163,10 +163,9 @@ class DeviceList extends Component {
 
         <Grid spacing={10} alignItems="center" justify="center" container className={classes.grid}>
           {this.renderComponentList()}
-
-          <Box className={classes.addDevice}>
+          {/* <Box className={classes.addDevice}>
             <img src={plusSymbol} height="30px" width="30px" alt="plus-symbol" />
-          </Box>
+          </Box> */}
         </Grid>
       </Grid>
     );

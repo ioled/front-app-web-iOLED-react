@@ -116,6 +116,7 @@ class AliasContainer extends Component {
     snackOpen: false,
     snackMessage: '',
     trans: false,
+    alias: this.props.alias,
   };
 
   // Map device state to configuration readable by the backend.
@@ -134,22 +135,28 @@ class AliasContainer extends Component {
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});
   };
 
+  changeAlias = (alias) => {
+    this.setState({
+      alias: alias,
+    });
+  };
+
   // Render the component.
   render() {
     const {classes} = this.props;
     const {state} = this.props;
 
-    const {snackOpen, snackMessage, trans} = this.state;
+    const {snackOpen, snackMessage, trans, alias} = this.state;
 
     return (
       <Box className={classes.aliasContainer} borderRadius={12} width="100%">
         <div className={classes.firstline}>
           <Box className={classes.alias} borderRadius={5} width="90%">
             <Box width="80%" className={classes.name}>
-              <Typography>{this.props.alias.toUpperCase()}</Typography>
+              <Typography>{alias.toUpperCase()}</Typography>
             </Box>
             <Box width="20%">
-              <DeviceMenu />
+              <DeviceMenu deviceID={this.props.deviceID} action={this.changeAlias} />
             </Box>
           </Box>
 

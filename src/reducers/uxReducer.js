@@ -4,7 +4,10 @@ export default (state = [], {type, payload}) => {
     case 'CHANGE_MENU':
       return payload;
     case 'CHANGE_ID':
-      return payload;
+      return {
+        ...state,
+        ...payload,
+      };
     default:
       return state;
   }

@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 // Action creators.
-import {getDeviceState} from '../../actions';
+import {getDeviceState, changeMenu, changeID} from '../../actions';
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
 import {Box} from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -37,9 +38,17 @@ const styles = (theme) =>
       backgroundColor: '#323039',
       marginRight: '5px',
       marginLeft: '5px',
+      width: '33%',
+      borderRadius: '12px',
+      display: 'block',
+      textTransform: 'none',
     },
     humContainer: {
       backgroundColor: '#323039',
+      width: '33%',
+      borderRadius: '12px',
+      display: 'block',
+      textTransform: 'none',
     },
     stateIcon: {
       marginTop: '11px',
@@ -52,9 +61,10 @@ const styles = (theme) =>
     },
     stateNumber: {
       fontSize: '24px',
+      fontWeight: 'bold',
     },
     stateUnity: {
-      fontSize: '12px',
+      fontSize: '14px',
     },
     stateText: {
       color: 'white',
@@ -70,6 +80,11 @@ const defaultProps = {
 };
 
 class StateContainer extends Component {
+  // Component state.
+  state = {
+    menu: 0,
+  };
+
   componentDidMount() {
     const {deviceID, index} = this.props;
     this.props.getDeviceState({deviceID}, index, true);
@@ -98,7 +113,14 @@ class StateContainer extends Component {
             </Box>
           </Box>
 
-          <Box width="33%" className={classes.tempContainer} borderRadius={12} border={0} {...defaultProps}>
+          <Button
+            className={classes.tempContainer}
+            onClick={() => {
+              this.setState({menu: 1});
+              this.props.changeMenu(1);
+              this.props.changeID(this.props.index);
+            }}
+          >
             <SvgIcon component={TempIcon} viewBox="0 0 14 33" className={classes.stateIcon} />
 
             <div className={classes.state}>
@@ -108,9 +130,9 @@ class StateContainer extends Component {
               <Typography className={classes.stateUnity}> ºC</Typography>
             </div>
             <Typography className={classes.stateText}>Temperatura</Typography>
-          </Box>
+          </Button>
 
-          <Box width="33%" className={classes.humContainer} borderRadius={12} border={0} {...defaultProps}>
+          <Button width="33%" className={classes.humContainer}>
             <SvgIcon component={HumIcon} viewBox="0 0 41 28" className={classes.stateIcon} />
 
             <div className={classes.state}>
@@ -118,7 +140,7 @@ class StateContainer extends Component {
               <Typography className={classes.stateUnity}> %</Typography>
             </div>
             <Typography className={classes.stateText}>Humedad</Typography>
-          </Box>
+          </Button>
         </Box>
       </Box>
     );
@@ -129,4 +151,4 @@ const mapStateToProps = (state, ownProps) => {
   return state.devices[ownProps.index];
 };
 
-export default connect(mapStateToProps, {getDeviceState})(withStyles(styles)(StateContainer));
+export default connect(mapStateToProps, {getDeviceState, changeMenu, changeID})(withStyles(styles)(StateContainer));

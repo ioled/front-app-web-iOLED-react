@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import {BrowserRouter} from 'react-router-dom';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 // material-ui components.
@@ -26,11 +26,13 @@ const styles = (theme) =>
   });
 
 class App extends Component {
-  /* This call fetch user on component first mount.
-   * It is better location than componentWillMount,
-   * since the last is called multiple times.
-   */
   componentDidMount() {
+    let token = window.location.search;
+    if (token !== '') {
+      token = token.replace('?token=', '');
+      window.localStorage.setItem('token', token);
+      window.history.pushState({}, document.title, '/');
+    }
     this.props.fetchUser();
   }
 
@@ -65,12 +67,10 @@ class App extends Component {
   // Render the component.
   render() {
     return (
-      <BrowserRouter>
-        <Fragment>
-          <CssBaseline />
-          {this.authContentRender()}
-        </Fragment>
-      </BrowserRouter>
+      <Router>
+        <CssBaseline />
+        {this.authContentRender()}
+      </Router>
     );
   }
 }

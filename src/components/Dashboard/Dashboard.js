@@ -8,6 +8,7 @@ import {withStyles} from '@material-ui/core/styles';
 import Navbar from './Navbar';
 import DeviceList from './DeviceList';
 import Device from '../Device/Device';
+import PlotContainer from '../Device/PlotContainer';
 import SimpleBottomNavigation from './SimpleBottom';
 
 // Dashboard component styles.
@@ -22,6 +23,7 @@ class DashBoard extends Component {
   // Render the navbar depending the auth state.
   deviceRender() {
     const {id = null} = this.props.ux;
+    const {menu = 0} = this.props.ux;
 
     switch (id) {
       case null:
@@ -35,13 +37,24 @@ class DashBoard extends Component {
       default:
         return <Fragment></Fragment>;
       case id:
-        return (
-          <Fragment>
-            <Navbar />
-            <Device index={id} />
-            <SimpleBottomNavigation index={0} />
-          </Fragment>
-        );
+        if (menu === 0) {
+          return (
+            <Fragment>
+              <Navbar />
+              <Device index={id} />
+              <SimpleBottomNavigation index={0} />
+            </Fragment>
+          );
+        }
+        if (menu === 1) {
+          return (
+            <Fragment>
+              <Navbar />
+              <PlotContainer index={id} />
+              <SimpleBottomNavigation index={0} />
+            </Fragment>
+          );
+        }
     }
   }
 

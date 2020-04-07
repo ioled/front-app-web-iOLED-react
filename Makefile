@@ -14,9 +14,14 @@ init i:
 clean c:
 	@echo "[clean] cleaning..."
 
+deploy d:
+	@npm run build
+	@echo "[App Engine Deployment] Deploying App"
+	@gcloud app deploy
+
 run r:
 	@echo "[running] Running frontend service"
 	@PORT=$(PORT)
 	@npm start
 
-.PHONY: version v prepare pre clean c run r stop s
+.PHONY: version v prepare pre clean c deploy d run r 
