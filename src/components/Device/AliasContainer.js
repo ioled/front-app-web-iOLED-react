@@ -20,10 +20,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 
-import SvgIcon from '@material-ui/core/SvgIcon';
-
-import {ReactComponent as TriangleIcon} from '../../images/TriangleIndicator.svg';
-
 // Component style.
 const styles = (theme) =>
   createStyles({
@@ -146,7 +142,7 @@ class AliasContainer extends Component {
     const {classes} = this.props;
     const {state} = this.props;
 
-    const {snackOpen, snackMessage, trans, alias} = this.state;
+    const {snackOpen, snackMessage, alias, trans} = this.state;
 
     return (
       <Box className={classes.aliasContainer} borderRadius={12} width="100%">
@@ -164,14 +160,6 @@ class AliasContainer extends Component {
             <IoledSwitch checked={state} onChange={this.switchOn} value="state" color="primary" />
           </div>
         </div>
-        <Box className={classes.weekContainer} borderRadius={36} width="100%">
-          <Box width="80%">
-            <Typography>Semana - 1</Typography>
-          </Box>
-          <Box width="20%">
-            <SvgIcon component={TriangleIcon} viewBox="0 0 17 17" className={classes.triangleIcon} fontSize="small" />
-          </Box>
-        </Box>
 
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}

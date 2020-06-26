@@ -16,8 +16,13 @@ clean c:
 
 deploy d:
 	@npm run build
-	@echo "[App Engine Deployment] Deploying App"
-	@gcloud app deploy
+	@echo "[PROD][App Engine Deployment] Deploying App"
+	@gcloud app deploy app-prod.yaml
+
+deploy-dev dev:
+	@npm run build
+	@echo "[DEV][App Engine Deployment] Deploying App"
+	@gcloud app deploy app-dev.yaml
 
 run r:
 	@echo "[running] Running frontend service"

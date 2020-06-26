@@ -42,6 +42,7 @@ const StyledButton = styled(Button)`
   width: 120px;
 `;
 
+const {GATEWAY_URL} = require('../../config');
 class Login extends Component {
   render() {
     const {classes} = this.props;
@@ -51,8 +52,12 @@ class Login extends Component {
         <div className={classes.paper}>
           <SvgIcon component={IoledIcon} viewBox="0 0 126 150" fontSize="inherit" className={classes.icon} />
           <SvgIcon component={IoledName} viewBox="0 0 111 27" fontSize="inherit" className={classes.name} />
-          {/* <StyledButton href="https://test-api-gateway-dot-ioled-dev-262215.appspot.com/auth/google" type="submit"> */}
-          <StyledButton href="http://localhost:5000/auth/google" type="submit">
+          <StyledButton
+            onClick={() => {
+              window.location.href = `${GATEWAY_URL}/auth/google`;
+            }}
+            type="submit"
+          >
             Login
           </StyledButton>
         </div>

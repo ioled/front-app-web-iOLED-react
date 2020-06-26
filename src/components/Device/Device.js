@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import StateContainer from './StateContainer';
 import AliasContainer from './AliasContainer';
 import SliderContainer from './SliderContainer';
-// import TimerContainer from './TimerContainer';
+import TimerContainer from './TimerContainer';
 // import PlotContainer from './PlotContainer';
 
 // material-ui components.
@@ -60,7 +60,7 @@ class Device extends Component {
             <AliasContainer index={this.props.index} />
             <StateContainer index={this.props.index} />
             <SliderContainer index={this.props.index} />
-            {/* <TimerContainer index={this.props.index} /> */}
+            <TimerContainer index={this.props.index} />
           </Fragment>
         );
       case 1:

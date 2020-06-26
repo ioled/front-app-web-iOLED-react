@@ -132,7 +132,14 @@ class StateContainer extends Component {
             <Typography className={classes.stateText}>Temperatura</Typography>
           </Button>
 
-          <Button width="33%" className={classes.humContainer}>
+          <Button
+            className={classes.tempContainer}
+            onClick={() => {
+              this.setState({menu: 1});
+              this.props.changeMenu(1);
+              this.props.changeID(this.props.index);
+            }}
+          >
             <SvgIcon component={HumIcon} viewBox="0 0 41 28" className={classes.stateIcon} />
 
             <div className={classes.state}>

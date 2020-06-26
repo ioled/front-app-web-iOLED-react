@@ -12,8 +12,6 @@ import Switch from '@material-ui/core/Switch';
 
 import Typography from '@material-ui/core/Typography';
 
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-
 import TextField from '@material-ui/core/TextField';
 
 import Snackbar from '@material-ui/core/Snackbar';
@@ -21,6 +19,22 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
 // Component style.
 const styles = (theme) =>
@@ -38,6 +52,7 @@ const styles = (theme) =>
       marginTop: '30px',
     },
     hourContainer: {
+      marginTop: '10px',
       backgroundColor: '#474453',
       color: 'white',
     },
@@ -47,64 +62,118 @@ const styles = (theme) =>
     timer: {
       color: 'white',
     },
+    timerDialog: {
+      textAlign: 'center',
+      backgroundColor: 'red',
+    },
+    transitionBox: {
+      marginTop: '20px',
+    },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: '#00EAA6',
     },
   });
 
+const StyledButton = styled(Button)`
+  background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
+  border-radius: 3px;
+  padding: 0 30px;
+  height: 48px;
+  width: 120px;
+`;
+
+const TimerDialog = withStyles((theme) => ({
+  paper: {
+    backgroundColor: '#1A191E',
+    color: 'white',
+    textAlign: 'center',
+    justifyItems: 'center',
+  },
+}))(Dialog);
+
 class TimerContainer extends Component {
   // Component state.
   state = {
     snackMessage: '',
     trans: false,
-    timerState: true,
+    timerState: this.props.timerState,
     timerOn: this.props.timerOn,
     timerOff: this.props.timerOff,
+    open: false,
+    onTime: '0',
+    timerDuty: 50,
+    rampState: false,
   };
 
   // Map device state to configuration readable by the backend.
-  stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceId) => {
-    return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceId};
+  stateToConfig = (duty, state, timerOn, timerOff, timerState, timerDuty, onTime, rampState, deviceID) => {
+    return {config: {duty, state, timerOn, timerOff, timerState, timerDuty, onTime, rampState}, deviceID};
   };
 
   // Modify the state of timer state to on to off.
   switchOnTimer = async (event) => {
     this.setState({snackOpen: false});
     this.setState({trans: true});
-    const {duty, state, timerOn, timerOff, deviceId, alias, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, timerOn, timerOff, event.target.checked, alias, deviceId);
+    const {duty, state, timerOn, timerOff, deviceID, index} = this.props;
+    const {timerDuty, onTime, rampState} = this.state;
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      timerOn,
+      timerOff,
+      event.target.checked,
+      timerDuty / 100,
+      parseInt(onTime),
+      rampState,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
-    this.setState({snackOpen: true, snackMessage: 'Timer actualizado'});
+    this.setState({snackOpen: true, snackMessage: 'Timer activado'});
   };
 
   timerOnChange = async (event) => {
     this.setState({timerOn: event.target.value});
   };
 
-  timerOnRelease = async (event) => {
-    this.setState({snackOpen: false});
-    this.setState({trans: true});
-    const {duty, state, timerOff, timerState, deviceId, alias, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, this.state.timerOn, timerOff, timerState, alias, deviceId);
-    await this.props.updateDeviceConfig(deviceConfig, index);
-    this.setState({trans: false});
-    this.setState({snackOpen: true, snackMessage: 'Timer actualizado'});
-  };
-
   timerOffChange = async (event) => {
     this.setState({timerOff: event.target.value});
   };
 
-  timerOffRelease = async (event) => {
-    this.setState({snackOpen: false});
+  timerDutyChange = async (event) => {
+    this.setState({timerDuty: event.target.value});
+  };
+
+  onTimeChange = async (event) => {
+    if (event.target.value === '0') {
+      this.setState({rampState: false});
+      this.setState({onTime: '0'});
+    } else {
+      this.setState({rampState: true});
+      this.setState({onTime: event.target.value});
+    }
+  };
+
+  updateTimerConfig = async (event) => {
     this.setState({trans: true});
-    const {duty, state, timerOn, timerState, deviceId, alias, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, timerOn, this.state.timerOff, timerState, alias, deviceId);
+    this.setState({open: false});
+    const {duty, state, timerState, deviceID, index} = this.props;
+    const {timerOn, timerOff, timerDuty, onTime, rampState} = this.state;
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      timerOn,
+      timerOff,
+      timerState,
+      timerDuty / 100,
+      parseInt(onTime),
+      rampState,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
-    this.setState({snackOpen: true, snackMessage: 'Timer actualizado'});
+    this.setState({snackOpen: true, snackMessage: 'Timer configurado'});
   };
 
   render() {
@@ -112,42 +181,94 @@ class TimerContainer extends Component {
     const {timerState} = this.props;
 
     const {snackOpen, snackMessage, timerOn, timerOff, trans} = this.state;
-
+    const {timerDuty, onTime} = this.state;
     return (
       <Box>
         <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography>
         <Box width="100%" className={classes.timerContainer} borderRadius={12}>
-          <Box width="45%" className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField
-                  id="timeOn"
-                  label="Encendido"
-                  type="time"
-                  value={timerOn}
-                  onChange={this.timerOnChange}
-                  onBlur={this.timerOnRelease}
-                />
-              </form>
-            </div>
-          </Box>
-          <ArrowRightIcon className={classes.arrowIcon} color="secondary" />
-          <Box width="45%" className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField
-                  id="timeOff"
-                  label="Apagado"
-                  type="time"
-                  value={timerOff}
-                  onChange={this.timerOffChange}
-                  onBlur={this.timerOffRelease}
-                />
-              </form>
-            </div>
-          </Box>
-          <Switch checked={timerState} value="state" onChange={this.switchOnTimer} color="primary" />
+          <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+
+          <StyledButton
+            onClick={() => {
+              this.setState({open: true});
+            }}
+            type="submit"
+          >
+            Configurar
+          </StyledButton>
         </Box>
+
+        <TimerDialog
+          open={this.state.open}
+          onClose={() => this.setState({open: false})}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Configuración Timer</DialogTitle>
+
+          <Box className={classes.hourContainer} borderRadius={12}>
+            <div className={classes.timer}>
+              <form noValidate>
+                <TextField id="timeOn" label="Encendido" type="time" value={timerOn} onChange={this.timerOnChange} />
+              </form>
+            </div>
+          </Box>
+
+          <Box className={classes.hourContainer} borderRadius={12}>
+            <div className={classes.timer}>
+              <form noValidate>
+                <TextField id="timeOff" label="Apagado" type="time" value={timerOff} onChange={this.timerOffChange} />
+              </form>
+            </div>
+          </Box>
+
+          <FormControl className={classes.hourContainer}>
+            <InputLabel>Porcentaje</InputLabel>
+            <Select value={timerDuty} onChange={this.timerDutyChange}>
+              <MenuItem value={0}>0</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+              <MenuItem value={40}>40</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+              <MenuItem value={60}>60</MenuItem>
+              <MenuItem value={70}>70</MenuItem>
+              <MenuItem value={80}>80</MenuItem>
+              <MenuItem value={90}>90</MenuItem>
+              <MenuItem value={100}>100</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Box className={classes.transitionBox}>
+            <FormControl>
+              <FormLabel
+                component="legend"
+                style={{
+                  color: 'white',
+                }}
+              >
+                Transición
+              </FormLabel>
+              <RadioGroup aria-label="gender" name="gender1" value={onTime} onChange={this.onTimeChange}>
+                <FormControlLabel value="1" control={<Radio />} label="1 min" />
+                <FormControlLabel value="5" control={<Radio />} label="5 min" />
+                <FormControlLabel value="10" control={<Radio />} label="10 min" />
+                <FormControlLabel value="0" control={<Radio />} label="(No habilitar)" />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+
+          <DialogActions>
+            <StyledButton onClick={this.updateTimerConfig}>Editar</StyledButton>
+            <Button
+              style={{
+                color: 'white',
+              }}
+              onClick={() => this.setState({open: false})}
+            >
+              Cancelar
+            </Button>
+          </DialogActions>
+        </TimerDialog>
 
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
