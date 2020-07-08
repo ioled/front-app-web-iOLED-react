@@ -2,7 +2,7 @@
 import axios from 'axios';
 //@ts-check
 
-const {GATEWAY_URL} = require('../config');
+const {IOLED_URL} = require('../config');
 
 /**
  * Sleep function. Must be called inside async function.
@@ -21,9 +21,7 @@ export const fetchUser = () => async (dispatch) => {
 
   for (let i = 0; i < 5; i++) {
     try {
-      /**@type {{data: {name: string, email: string, photo: string, asd: string}}} */
-
-      const res = await axios.get(`${GATEWAY_URL}${query}`, {
+      const res = await axios.get(`${IOLED_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
       dispatch({type: 'FETCH_USER', payload: res.data.currentUser});
@@ -43,8 +41,7 @@ export const fetchDevices = () => async (dispatch) => {
 
   for (let i = 0; i < 5; i++) {
     try {
-      /** @type {{data: {devices: array}}} */
-      const res = await axios.get(`${GATEWAY_URL}${query}`, {
+      const res = await axios.get(`${IOLED_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
       dispatch({type: 'LIST_DEVICES', payload: res.data.userDevices});
@@ -80,12 +77,12 @@ export const registerDevice = (deviceId) => async (dispatch) => {
  */
 
 export const updateDeviceConfig = (device, index) => async (dispatch) => {
-  const query = '/deviceControl/device/';
+  const query = '/device/';
   console.log('Update device config...');
   try {
     // Add await here to wait for the response to update the state of the switch component.
     await axios.put(
-      `${GATEWAY_URL}${query}${device.deviceID}/config`,
+      `${IOLED_URL}${query}${device.deviceID}`,
       {device},
       {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
@@ -98,29 +95,15 @@ export const updateDeviceConfig = (device, index) => async (dispatch) => {
 };
 
 /**
- * Delete a device from the dashboard.
- * @param {{deviceId: string}} device The device object
- * @param {number} index Device index in the list.
- */
-// export const deleteDevice = (device, index) => async (dispatch) => {
-//   try {
-//     await axios.delete(`/devices/${device.deviceId}`);
-//     dispatch(fetchDevices());
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
-/**
  * Get the device state.
  * @param {{deviceId: string}} device The device object
  * @param {number} index Device index in the list.
  */
 export const getDeviceState = (device, index) => async (dispatch) => {
-  const query = '/deviceControl/device/';
+  const query = '/device/';
   console.log('Getting device state: ' + device.deviceID);
   try {
-    const res = await axios.get(`${GATEWAY_URL}${query}${device.deviceID}/state`, {
+    const res = await axios.get(`${IOLED_URL}${query}${device.deviceID}/state`, {
       headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
     });
     const state = res.data.deviceState;
@@ -131,14 +114,17 @@ export const getDeviceState = (device, index) => async (dispatch) => {
   await sleep(5000);
 };
 
-function stateToConfig(alias, deviceId) {
-  return {config: {alias}, deviceId};
-}
+
 
 /**
  * Change alias ID
  * @param {string} deviceId The id of the device.
  */
+
+function stateToConfig(alias, deviceId) {
+  return {config: {alias}, deviceId};
+}
+
 export const changeAlias = (deviceId, alias) => async (dispatch) => {
   const query = '/user/changeDevice';
 
@@ -146,44 +132,12 @@ export const changeAlias = (deviceId, alias) => async (dispatch) => {
 
   try {
     // Add await here to wait for the response to update firestore DB
-    await axios.post(`${GATEWAY_URL}${query}`, deviceConfig);
+    await axios.post(`${IOLED_URL}${query}`, deviceConfig);
     dispatch({type: 'UPDATE_ALIAS', payload: {deviceConfig}});
   } catch (err) {
     console.log('Error actualizando alias:', err.response);
   }
 };
-
-/**
- * Change alias ID
- * @param {string} inputForm image form
- */
-export const uploadImage = (formdata) => async (dispatch) => {
-  try {
-    const res = await axios({
-      method: 'post',
-      url: '/add',
-      data: formdata,
-      config: {headers: {'Content-Type': 'multipart/form-data'}},
-    });
-    dispatch({type: 'UPLOAD_IMAGE'});
-    return res.data.imageURL;
-  } catch (err) {
-    console.log('Error upload image:', err.response);
-  }
-};
-
-// /**
-//  * Predict with images
-//  * @param {string} Image The path of the images to predict
-//  */
-// export const predictWithImage = (imagePath) => async dispatch => {
-// 	try {
-// 		await axios.post('/predict', {imagePath});
-// 		dispatch({type: 'PREDICT_IMAGE'});
-// 	} catch (err) {
-// 		console.log('Error predict image', err.response);
-// 	}
-// };
 
 /**
  * Get the data history of devices

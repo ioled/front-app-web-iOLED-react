@@ -9,8 +9,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Avatar from '@material-ui/core/Avatar';
 
-import CreditCardIcon from '@material-ui/icons/CreditCard';
-
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import {Box} from '@material-ui/core';
@@ -134,10 +132,25 @@ class Navbar extends Component {
         </Box>
         <StyledDivider />
 
-        <Box className={classes.drawercard}>
+        {/* <Box className={classes.drawercard}>
           <CreditCardIcon color="secondary" />
           <p className={classes.plan}>Plan</p>
         </Box>
+        <StyledDivider /> */}
+
+        <Box className={classes.drawerdown}>
+          <Button
+            href="/"
+            onClick={() => {
+              localStorage.clear();
+            }}
+            variant="contained"
+            color="primary"
+          >
+            Instalar
+          </Button>
+        </Box>
+
         <StyledDivider />
 
         <Box className={classes.drawerdown}>
@@ -155,6 +168,7 @@ class Navbar extends Component {
         </Box>
 
         <StyledDivider />
+        
       </div>
     );
   };

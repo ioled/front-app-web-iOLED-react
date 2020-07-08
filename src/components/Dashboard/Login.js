@@ -42,7 +42,7 @@ const StyledButton = styled(Button)`
   width: 120px;
 `;
 
-const {GATEWAY_URL} = require('../../config');
+const {IOLED_URL} = require('../../config');
 class Login extends Component {
   render() {
     const {classes} = this.props;
@@ -54,7 +54,7 @@ class Login extends Component {
           <SvgIcon component={IoledName} viewBox="0 0 111 27" fontSize="inherit" className={classes.name} />
           <StyledButton
             onClick={() => {
-              window.location.href = `${GATEWAY_URL}/auth/google`;
+              window.location.href = `${IOLED_URL}/auth/google`;
             }}
             type="submit"
           >
