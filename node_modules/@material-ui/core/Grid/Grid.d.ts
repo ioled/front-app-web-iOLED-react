@@ -32,6 +32,7 @@ export type GridClassKey =
   | 'root'
   | 'container'
   | 'item'
+  | 'zeroMinWidth'
   | 'direction-xs-column'
   | 'direction-xs-column-reverse'
   | 'direction-xs-row-reverse'
@@ -50,6 +51,7 @@ export type GridClassKey =
   | 'justify-xs-flex-end'
   | 'justify-xs-space-between'
   | 'justify-xs-space-around'
+  | 'justify-xs-space-evenly'
   | 'spacing-xs-1'
   | 'spacing-xs-2'
   | 'spacing-xs-3'
@@ -92,6 +94,16 @@ export interface GridTypeMap<P = {}, D extends React.ElementType = 'div'> {
   classKey: GridClassKey;
 }
 
+/**
+ *
+ * Demos:
+ *
+ * - [Grid](https://material-ui.com/components/grid/)
+ *
+ * API:
+ *
+ * - [Grid API](https://material-ui.com/api/grid/)
+ */
 declare const Grid: OverridableComponent<GridTypeMap>;
 
 export type GridProps<

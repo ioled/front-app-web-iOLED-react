@@ -1,12 +1,14 @@
 export * from './colorManipulator';
-export { default as createMuiTheme, Theme, Direction } from './createMuiTheme';
 export {
-  default as createPalette,
-  PaletteColorOptions,
-  SimplePaletteColorOptions,
-} from './createPalette';
+  default as createMuiTheme,
+  default as unstable_createMuiStrictModeTheme,
+  ThemeOptions,
+  Theme,
+  Direction,
+} from './createMuiTheme';
+export { PaletteColorOptions, SimplePaletteColorOptions } from './createPalette';
 export { default as createStyles } from './createStyles';
-export { TypographyStyle } from './createTypography';
+export { TypographyStyle, Variant as TypographyVariant } from './createTypography';
 export { default as makeStyles } from './makeStyles';
 export { default as responsiveFontSizes } from './responsiveFontSizes';
 export { ComponentsPropsList } from './props';
@@ -28,4 +30,5 @@ export {
   StylesProvider,
   ThemeProvider as MuiThemeProvider,
   ThemeProvider,
+  ThemeProviderProps,
 } from '@material-ui/styles';
