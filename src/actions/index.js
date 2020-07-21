@@ -107,6 +107,7 @@ export const getDeviceState = (device, index) => async (dispatch) => {
       headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
     });
     const state = res.data.deviceState;
+    console.log(state)
     dispatch({type: 'GET_STATE', payload: {state, index}});
   } catch (err) {
     console.log(err);
