@@ -107,7 +107,6 @@ export const getDeviceState = (device, index) => async (dispatch) => {
       headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
     });
     const state = res.data.deviceState;
-    console.log(state)
     dispatch({type: 'GET_STATE', payload: {state, index}});
   } catch (err) {
     console.log(err);
@@ -143,25 +142,22 @@ export const changeAlias = (deviceId, alias) => async (dispatch) => {
 /**
  * Get the data history of devices
  * @param {string} deviceId The id of the device.
- */
-const URL_H = 'https://us-central1-ioled-dev-262215.cloudfunctions.net/historyApi';
-
-/*
  * day: 1, week: 2, month: 3
  *
  */
 export const getHistory = async (device, time) => {
+  const query = '/history';
+
   try {
     var res = 1;
     if (time === 1) {
-      // console.log(device);
-      res = await axios.get(`${URL_H}/day/${device.deviceID}`);
+      res = await axios.get(`${IOLED_URL}${query}/day/${device.deviceID}`);
     }
     if (time === 2) {
-      res = await axios.get(`${URL_H}/week/${device.deviceID}`);
+      res = await axios.get(`${IOLED_URL}${query}/week/${device.deviceID}`);
     }
     if (time === 3) {
-      res = await axios.get(`${URL_H}/month/${device.deviceID}`);
+      res = await axios.get(`${IOLED_URL}${query}/month/${device.deviceID}`);
     }
     return res.data.data;
   } catch (err) {

@@ -25,7 +25,7 @@ deploy-dev dev:
 	@gcloud app deploy app-dev.yaml
 
 run r:
-	@echo "[running] Running frontend service"
+	@echo "[Running] Running frontend service"
 	@PORT=$(PORT)
 	@npm start
 

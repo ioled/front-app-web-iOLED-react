@@ -100,10 +100,7 @@ class StateContainer extends Component {
         <Typography className={classes.nameContainer}>Estados</Typography>
         <Box width="100%" className={classes.stateContainer}>
           <Box width="33%" className={classes.powerContainer} borderRadius={12} border={0} {...defaultProps}>
-            <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} />
-
-            {console.log(this.props)}
-            
+            <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} />            
             <div className={classes.state}>
               <Typography className={classes.stateNumber} variant="h6">
                 {(duty * power).toFixed() * state}

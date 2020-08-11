@@ -110,7 +110,7 @@ class DeviceList extends Component {
     const {devices, classes} = this.props;
 
     return devices.map((device, key) => {
-      if (device.state === true) {
+      if (device.online === true) {
         return (
           <Button
             key={device.deviceID}

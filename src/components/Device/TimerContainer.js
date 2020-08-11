@@ -101,9 +101,9 @@ class TimerContainer extends Component {
     timerOn: this.props.timerOn,
     timerOff: this.props.timerOff,
     open: false,
-    onTime: '0',
-    timerDuty: 50,
-    rampState: false,
+    onTime: this.props.onTime,
+    timerDuty: this.props.timerDuty,
+    rampState: this.props.rampState,
   };
 
   // Map device state to configuration readable by the backend.
@@ -146,12 +146,12 @@ class TimerContainer extends Component {
   };
 
   onTimeChange = async (event) => {
-    if (event.target.value === '0') {
+    if (event.target.value === 0) {
       this.setState({rampState: false});
-      this.setState({onTime: '0'});
+      this.setState({onTime: 0});
     } else {
       this.setState({rampState: true});
-      this.setState({onTime: event.target.value});
+      this.setState({onTime: parseInt(event.target.value)});
     }
   };
 
@@ -166,7 +166,7 @@ class TimerContainer extends Component {
       timerOn,
       timerOff,
       timerState,
-      timerDuty / 100,
+      timerDuty,
       parseInt(onTime),
       rampState,
       deviceID,
@@ -225,16 +225,16 @@ class TimerContainer extends Component {
             <InputLabel>Porcentaje</InputLabel>
             <Select value={timerDuty} onChange={this.timerDutyChange}>
               <MenuItem value={0}>0</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={20}>20</MenuItem>
-              <MenuItem value={30}>30</MenuItem>
-              <MenuItem value={40}>40</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
-              <MenuItem value={60}>60</MenuItem>
-              <MenuItem value={70}>70</MenuItem>
-              <MenuItem value={80}>80</MenuItem>
-              <MenuItem value={90}>90</MenuItem>
-              <MenuItem value={100}>100</MenuItem>
+              <MenuItem value={0.1}>10</MenuItem>
+              <MenuItem value={0.2}>20</MenuItem>
+              <MenuItem value={0.3}>30</MenuItem>
+              <MenuItem value={0.4}>40</MenuItem>
+              <MenuItem value={0.5}>50</MenuItem>
+              <MenuItem value={0.6}>60</MenuItem>
+              <MenuItem value={0.7}>70</MenuItem>
+              <MenuItem value={0.8}>80</MenuItem>
+              <MenuItem value={0.9}>90</MenuItem>
+              <MenuItem value={1}>100</MenuItem>
             </Select>
           </FormControl>
 
@@ -246,13 +246,13 @@ class TimerContainer extends Component {
                   color: 'white',
                 }}
               >
-                Transición
+                Tiempo de encendido
               </FormLabel>
-              <RadioGroup aria-label="gender" name="gender1" value={onTime} onChange={this.onTimeChange}>
-                <FormControlLabel value="1" control={<Radio />} label="1 min" />
-                <FormControlLabel value="5" control={<Radio />} label="5 min" />
-                <FormControlLabel value="10" control={<Radio />} label="10 min" />
-                <FormControlLabel value="0" control={<Radio />} label="(No habilitar)" />
+              <RadioGroup  value={onTime} onChange={this.onTimeChange}>
+                <FormControlLabel value={1} control={<Radio />} label="1 min" />
+                <FormControlLabel value={5} control={<Radio />} label="5 min" />
+                <FormControlLabel value={10} control={<Radio />} label="10 min" />
+                <FormControlLabel value={0} control={<Radio />} label="(No habilitar)" />
               </RadioGroup>
             </FormControl>
           </Box>
