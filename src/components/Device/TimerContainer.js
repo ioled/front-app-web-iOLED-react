@@ -43,7 +43,7 @@ const styles = (theme) =>
       textAlign: 'center',
       // backgroundColor: '#323039',
       padding: theme.spacing(1),
-      marginTop: '0px',
+      margin: '0px 20px',
       display: 'flex',
       borderRadius: '12px',
     },
@@ -54,14 +54,24 @@ const styles = (theme) =>
     },
     hourContainer: {
       marginTop: '10px',
-      backgroundColor: '#474453',
+      // backgroundColor: '#474453',
       color: 'white',
+      border: '1px solid #323039',
+      borderRadius: '5px',
     },
-    arrowIcon: {
-      marginTop: '10px',
+    inputForm: {
+      display: 'flex',
     },
-    timer: {
+    inputFormName: {
       color: 'white',
+      margin: '20px 20px',
+      display: 'block',
+    },
+    inputFormValue: {
+      color: 'white',
+      display: 'block',
+      fontSize: '20px',
+      margin: '14px 0',
     },
     timerDialog: {
       textAlign: 'center',
@@ -92,6 +102,8 @@ const TimerDialog = withStyles((theme) => ({
     color: 'white',
     textAlign: 'center',
     justifyItems: 'center',
+    margin: 'auto',
+    padding: '20px'
   },
 }))(Dialog);
 
@@ -193,7 +205,6 @@ class TimerContainer extends Component {
         <br></br>
 
         <Box width="100%" className={classes.timerContainer}>
-          {/* <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" /> */}
 
           <StyledButton
             onClick={() => {
@@ -212,24 +223,37 @@ class TimerContainer extends Component {
         >
           <DialogTitle id="form-dialog-title">Configuración Timer</DialogTitle>
 
-          <Box className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField id="timeOn" label="Encendido" type="time" value={timerOn} onChange={this.timerOnChange} />
-              </form>
-            </div>
+          <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+
+          <Box className={classes.hourContainer}>
+            <form noValidate className={classes.inputForm}>
+              <div className={classes.inputFormName}>Encendido</div>
+              <TextField 
+                InputProps={{className: classes.inputFormValue}} 
+                autoFocus= 'true'
+                // InputLabelProps={{className: classes.timer}} 
+                id="timeOn" 
+                type="time" 
+                value={timerOn} 
+                onChange={this.timerOnChange} />
+            </form>
           </Box>
 
-          <Box className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField id="timeOff" label="Apagado" type="time" value={timerOff} onChange={this.timerOffChange} />
-              </form>
-            </div>
+          <Box className={classes.hourContainer}>
+            <form noValidate className={classes.inputForm}>
+            <div className={classes.inputFormName}>Apagado</div>
+              <TextField
+                InputProps={{className: classes.inputFormValue}}  
+                id="timeOff" 
+                type="time" 
+                value={timerOff} 
+                onChange={this.timerOffChange} />
+            </form>
           </Box>
 
           <FormControl className={classes.hourContainer}>
-            <InputLabel>Porcentaje</InputLabel>
+            <InputLabel className={classes.inputFormName}>Porcentaje</InputLabel>
+            {/* <div className={classes.inputFormName}>Porcentaje</div> */}
             <Select value={timerDuty} onChange={this.timerDutyChange}>
               <MenuItem value={0}>0</MenuItem>
               <MenuItem value={0.1}>10</MenuItem>
@@ -265,7 +289,6 @@ class TimerContainer extends Component {
           </Box>
 
           <DialogActions>
-            <StyledButton onClick={this.updateTimerConfig}>Editar</StyledButton>
             <Button
               style={{
                 color: 'white',
@@ -274,6 +297,7 @@ class TimerContainer extends Component {
             >
               Cancelar
             </Button>
+            <StyledButton onClick={this.updateTimerConfig}>Aplicar</StyledButton>
           </DialogActions>
         </TimerDialog>
 
