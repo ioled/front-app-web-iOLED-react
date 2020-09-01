@@ -32,26 +32,38 @@ const styles = (theme) =>
       marginTop: '30px',
     },
     powerContainer: {
-      backgroundColor: '#323039',
+      padding: '6px',
+      width: '33%',
+      // backgroundColor: '#323039',
+      // border: '1px solid #323039',
     },
     tempContainer: {
-      backgroundColor: '#323039',
+      // backgroundColor: '#323039',
+      // border: '1px solid #323039',
       marginRight: '5px',
       marginLeft: '5px',
       width: '33%',
-      borderRadius: '12px',
+      // borderRadius: '12px',
       display: 'block',
       textTransform: 'none',
+      "&:hover": {
+        backgroundColor: '#323039',
+      },
     },
     humContainer: {
-      backgroundColor: '#323039',
+      // backgroundColor: '#323039',
+      // border: '1px solid #323039',
       width: '33%',
-      borderRadius: '12px',
+      // borderRadius: '12px',
       display: 'block',
       textTransform: 'none',
+      "&:hover": {
+        backgroundColor: '#323039',
+      },
     },
     stateIcon: {
-      marginTop: '11px',
+      marginTop: '-15px', //'11px',
+      padding: '3px',
     },
     state: {
       color: 'white',
@@ -60,11 +72,14 @@ const styles = (theme) =>
       alignItems: 'center',
     },
     stateNumber: {
-      fontSize: '24px',
-      fontWeight: 'bold',
+      fontSize: '30px',
+      fontWeight: '500', //'bold',
+      // fontWeight="fontWeightBold"
     },
     stateUnity: {
       fontSize: '14px',
+      padding: '2px',
+      marginTop: '10px',
     },
     stateText: {
       color: 'white',
@@ -101,16 +116,15 @@ class StateContainer extends Component {
         <br></br>
         <br></br>
         <Box width="100%" className={classes.stateContainer}>
-          <Box width="33%" className={classes.powerContainer} borderRadius={12} border={0} {...defaultProps}>
-            <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} />            
+          <Box className={classes.powerContainer} borderRadius={12} border={0} {...defaultProps}>
+            {/* <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} />             */}
             <div className={classes.state}>
-              <Typography className={classes.stateNumber} variant="h6">
-                {(duty * power).toFixed() * state}
-              </Typography>
-              <Typography className={classes.stateUnity}> W</Typography>
+              <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} /> 
+              <Typography className={classes.stateNumber}>{(duty * power).toFixed() * state}</Typography>
+              <Typography className={classes.stateUnity}>W</Typography>
             </div>
             <Box className={classes.boxState} borderRadius={12} width="100%">
-              <Typography className={classes.stateText}>Al {(duty * 100).toFixed()} %</Typography>
+              {/* <Typography className={classes.stateText}>Al {(duty * 100).toFixed()} %</Typography> */}
             </Box>
           </Box>
 
@@ -122,15 +136,14 @@ class StateContainer extends Component {
               this.props.changeID(this.props.index);
             }}
           >
-            <SvgIcon component={TempIcon} viewBox="0 0 14 33" className={classes.stateIcon} />
+            {/* <SvgIcon component={TempIcon} viewBox="0 0 14 33" className={classes.stateIcon} /> */}
 
             <div className={classes.state}>
-              <Typography className={classes.stateNumber} fontWeight="fontWeightBold">
-                {temp.toFixed(1)}
-              </Typography>
-              <Typography className={classes.stateUnity}> ºC</Typography>
+              <SvgIcon component={TempIcon} viewBox="0 0 14 33" className={classes.stateIcon} />
+              <Typography className={classes.stateNumber}>{temp.toFixed(1)}</Typography>
+              <Typography className={classes.stateUnity}>°C</Typography>
             </div>
-            <Typography className={classes.stateText}>Temperatura</Typography>
+            {/* <Typography className={classes.stateText}>Temperatura</Typography> */}
           </Button>
 
           <Button
@@ -141,13 +154,14 @@ class StateContainer extends Component {
               this.props.changeID(this.props.index);
             }}
           >
-            <SvgIcon component={HumIcon} viewBox="0 0 41 28" className={classes.stateIcon} />
+            {/* <SvgIcon component={HumIcon} viewBox="0 0 41 28" className={classes.stateIcon} /> */}
 
             <div className={classes.state}>
+              <SvgIcon component={HumIcon} viewBox="0 0 41 28" className={classes.stateIcon} />
               <Typography className={classes.stateNumber}> {hum.toFixed(1)}</Typography>
-              <Typography className={classes.stateUnity}> %</Typography>
+              <Typography className={classes.stateUnity}>%</Typography>
             </div>
-            <Typography className={classes.stateText}>Humedad</Typography>
+            {/* <Typography className={classes.stateText}>Humedad</Typography> */}
           </Button>
         </Box>
       </Box>

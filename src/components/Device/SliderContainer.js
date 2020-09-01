@@ -28,17 +28,28 @@ const styles = (theme) =>
       padding: theme.spacing(1),
       // marginTop: '0px',
       // margin: '10px',
+      display: 'flex',
     },
     nameContainer: {
       fontSize: '12px',
       color: '#FFFFFF',
       marginTop: '30px',
     },
+    rangeElement: {
+      display: 'block',
+      color: 'white',
+      marginTop: '20px',
+      // padding: '10px',
+    },
     rangeLabel: {
-      display: 'flex',
+      // display: 'flex',
       justifyContent: 'space-between',
       color: 'white',
       fontSize: '12px',
+    },
+    dutyContainer: {
+      marginTop: '-10px',
+      padding: '0 20px',
     },
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
@@ -59,12 +70,13 @@ const styles = (theme) =>
 
 const IoledSlider = withStyles({
   root: {
-    height: 10,
+    height: 10, //10,
   },
   thumb: {
     height: 24,
     width: 24,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
     border: '2px solid currentColor',
     marginTop: -8,
     marginLeft: -12,
@@ -78,12 +90,12 @@ const IoledSlider = withStyles({
   },
   rail: {
     backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
-    height: 8,
+    height: 5, //8
     borderRadius: 4,
   },
   track: {
     backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
-    height: 8,
+    height: 5, //
     borderRadius: 4,
   },
 })(Slider);
@@ -205,21 +217,29 @@ class SliderContainer extends Component {
         </Box>
 
         <Box width="100%" className={classes.sliderContainer}>
-          <div className={classes.rangeLabel}>
+          {/* <div className={classes.rangeLabel}>
             <Typography>0%</Typography>
             <Typography>100%</Typography>
-          </div>
-          <div className={classes.dutyContainer}>
-            <IoledSlider
-              value={tempDuty}
-              min={0}
-              max={1}
-              step={0.05}
-              valueLabelDisplay="auto"
-              onChange={this.sliderOnChangeHandler}
-              onChangeCommitted={this.sliderOnReleaseHandler}
-            />
-          </div>
+          </div> */}
+          <Box width="10%" className={classes.rangeElement}>
+            <div><Typography>0%</Typography></div>
+          </Box>
+          <Box width="80%" className={classes.rangeElement}>
+            <div className={classes.dutyContainer}>
+              <IoledSlider
+                value={tempDuty}
+                min={0}
+                max={1}
+                step={0.05}
+                valueLabelDisplay="auto"
+                onChange={this.sliderOnChangeHandler}
+                onChangeCommitted={this.sliderOnReleaseHandler}
+              />
+            </div>
+          </Box>
+          <Box width="10%" className={classes.rangeElement}>
+            <div><Typography>100%</Typography></div>
+          </Box>
 
           <Snackbar
             anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}

@@ -76,13 +76,14 @@ const styles = (theme) =>
     },
   });
 
-  
+  // background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
 const StyledButton = styled(Button)`
-  background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
+  background: #323039;
   border-radius: 3px;
   padding: 0 30px;
   height: 48px;
   width: 120px;
+  color: white;
 `;
 
 const TimerDialog = withStyles((theme) => ({
@@ -187,6 +188,10 @@ class TimerContainer extends Component {
     return (
       <Box>
         {/* <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography> */}
+        
+        <br></br>
+        <br></br>
+
         <Box width="100%" className={classes.timerContainer}>
           {/* <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" /> */}
 
