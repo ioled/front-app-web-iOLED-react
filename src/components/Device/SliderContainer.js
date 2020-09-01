@@ -68,6 +68,49 @@ const styles = (theme) =>
     
   });
 
+const IoledSwitch = withStyles((theme) => ({
+  root: {
+    width: 150, //42, 202
+    height: 122, //26, 122
+    padding: 0,
+    margin: theme.spacing(1),
+  },
+  switchBase: {
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(29px)', //16px
+      color: theme.palette.common.white,
+      '& + $track': {
+        backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+        opacity: 1,
+        border: 'none',
+      },
+    },
+    '&$focusVisible $thumb': {
+      backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+      border: '6px solid #888fff',
+    },
+  },
+  thumb: {
+    width: 110, //24, 120
+    height: 110, //24
+    // marginTop: 5,
+    margin: 5,
+    backgroundImage: 'linear-gradient(90deg, #e4e3e8 0%, #ccfff1 100%)', //'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
+    // border: '2px solid currentColor',
+
+  },
+  track: {
+    borderRadius: 130 / 2, // 26/2, 130/2
+    // border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: '#323039', //theme.palette.grey[150],
+    opacity: 1,
+    transition: theme.transitions.create(['background-color', 'border']),
+  },
+  checked: {},
+}))(Switch);
+
+
 const IoledSlider = withStyles({
   root: {
     height: 10, //10,
@@ -76,8 +119,8 @@ const IoledSlider = withStyles({
     height: 24,
     width: 24,
     // backgroundColor: '#fff',
-    backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
-    border: '2px solid currentColor',
+    backgroundImage: 'linear-gradient(90deg, #e4e3e8 0%, #ccfff1 100%)', //backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
+    // border: '2px solid currentColor',
     marginTop: -8,
     marginLeft: -12,
     '&:focus,&:hover,&$active': {
@@ -99,45 +142,6 @@ const IoledSlider = withStyles({
     borderRadius: 4,
   },
 })(Slider);
-
-const IoledSwitch = withStyles((theme) => ({
-  root: {
-    width: 270, //42, 202
-    height: 122, //26, 122
-    padding: 0,
-    margin: theme.spacing(1),
-  },
-  switchBase: {
-    padding: 1,
-    '&$checked': {
-      transform: 'translateX(148px)', //16px
-      color: theme.palette.common.white,
-      '& + $track': {
-        backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
-        opacity: 1,
-        border: 'none',
-      },
-    },
-    '&$focusVisible $thumb': {
-      backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
-      border: '6px solid #888fff',
-    },
-  },
-  thumb: {
-    width: 110, //24, 120
-    height: 110, //24
-    // marginTop: 5,
-    margin: 5,
-  },
-  track: {
-    borderRadius: 130 / 2, // 26/2, 130/2
-    // border: `1px solid ${theme.palette.grey[400]}`,
-    backgroundColor: '#323039', //theme.palette.grey[150],
-    opacity: 1,
-    transition: theme.transitions.create(['background-color', 'border']),
-  },
-  checked: {},
-}))(Switch);
 
 class SliderContainer extends Component {
   // Component state.
