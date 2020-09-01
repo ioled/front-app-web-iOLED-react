@@ -24,9 +24,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 const styles = (theme) =>
   createStyles({
     aliasContainer: {
-      padding: theme.spacing(1),
+      padding: '3px', //  theme.spacing(1),
       backgroundColor: '#323039',
       marginTop: '10px',
+      borderRadius: '12px'
     },
     firstline: {
       display: 'flex',
@@ -38,6 +39,7 @@ const styles = (theme) =>
       backgroundColor: '#1A191E',
       justifyContent: 'center',
       alignItems: 'center',
+      borderRadius: '10px',
     },
     menu: {
       marginLeft: '90px',
@@ -145,9 +147,9 @@ class AliasContainer extends Component {
     const {snackOpen, snackMessage, alias, trans} = this.state;
 
     return (
-      <Box className={classes.aliasContainer} borderRadius={12} width="100%">
+      <Box className={classes.aliasContainer} width="100%">
         <div className={classes.firstline}>
-          <Box className={classes.alias} borderRadius={5} width="90%">
+          <Box className={classes.alias} width="100%">
             <Box width="80%" className={classes.name}>
               <Typography>{alias.toUpperCase()}</Typography>
             </Box>
@@ -155,10 +157,10 @@ class AliasContainer extends Component {
               <DeviceMenu deviceID={this.props.deviceID} action={this.changeAlias} />
             </Box>
           </Box>
-
+{/* 
           <div className={classes.onSwitch}>
             <IoledSwitch checked={state} onChange={this.switchOn} value="state" color="primary" />
-          </div>
+          </div> */}
         </div>
 
         <Snackbar

@@ -8,6 +8,8 @@ import {updateDeviceConfig} from '../../actions';
 import {withStyles, createStyles} from '@material-ui/core/styles';
 import {Box} from '@material-ui/core';
 
+import Switch from '@material-ui/core/Switch';
+
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
@@ -22,9 +24,10 @@ const styles = (theme) =>
   createStyles({
     sliderContainer: {
       textAlign: 'center',
-      backgroundColor: '#323039',
+      // backgroundColor: '#323039',
       padding: theme.spacing(1),
-      marginTop: '0px',
+      // marginTop: '0px',
+      // margin: '10px',
     },
     nameContainer: {
       fontSize: '12px',
@@ -41,6 +44,17 @@ const styles = (theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#00EAA6',
     },
+    buttonContainer: {
+      textAlign: 'center',
+      // backgroundColor: '#323039',
+      borderRadius: '12px',
+    },
+    onSwitch: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: '5px',
+    },
+    
   });
 
 const IoledSlider = withStyles({
@@ -74,16 +88,70 @@ const IoledSlider = withStyles({
   },
 })(Slider);
 
+const IoledSwitch = withStyles((theme) => ({
+  root: {
+    width: 270, //42, 202
+    height: 122, //26, 122
+    padding: 0,
+    margin: theme.spacing(1),
+  },
+  switchBase: {
+    padding: 1,
+    '&$checked': {
+      transform: 'translateX(148px)', //16px
+      color: theme.palette.common.white,
+      '& + $track': {
+        backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+        opacity: 1,
+        border: 'none',
+      },
+    },
+    '&$focusVisible $thumb': {
+      backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+      border: '6px solid #888fff',
+    },
+  },
+  thumb: {
+    width: 110, //24, 120
+    height: 110, //24
+    // marginTop: 5,
+    margin: 5,
+  },
+  track: {
+    borderRadius: 130 / 2, // 26/2, 130/2
+    // border: `1px solid ${theme.palette.grey[400]}`,
+    backgroundColor: '#323039', //theme.palette.grey[150],
+    opacity: 1,
+    transition: theme.transitions.create(['background-color', 'border']),
+  },
+  checked: {},
+}))(Switch);
+
 class SliderContainer extends Component {
   // Component state.
   state = {
     tempDuty: this.props.duty,
     trans: false,
+    state: this.props.state,
+    snackOpen: false,
+    snackMessage: '',
+    alias: this.props.alias,
   };
+
 
   // Map device state to configuration readable by the backend.
   stateToConfig = (duty, state, timerOn, timerOff, timerState, alias, deviceID) => {
     return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceID};
+  };
+
+  switchOn = async (event) => {
+    this.setState({snackOpen: false});
+    this.setState({trans: true});
+    const {duty, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
+    const deviceConfig = this.stateToConfig(duty, event.target.checked, timerOn, timerOff, timerState, alias, deviceID);
+    await this.props.updateDeviceConfig(deviceConfig, index);
+    this.setState({trans: false});
+    this.setState({snackOpen: true, snackMessage: 'Actualizado'});
   };
 
   /* Change the intensity of the led.
@@ -121,13 +189,22 @@ class SliderContainer extends Component {
 
   render() {
     const {classes} = this.props;
+    const {state} = this.props;
     const {snackOpen, snackMessage, tempDuty, trans} = this.state;
 
     return (
       <Box width="100%">
-        <Typography className={classes.nameContainer}>Control de intensidad</Typography>
+        {/* <Typography className={classes.nameContainer}>Control de intensidad</Typography> */}
+        <br></br>
+        <br></br>
 
-        <Box width="100%" className={classes.sliderContainer} borderRadius={12}>
+        <Box width="100%" className={classes.buttonContainer}>
+          <div className={classes.onSwitch}>
+            <IoledSwitch checked={state} onChange={this.switchOn} value="state" color="primary" />
+          </div>
+        </Box>
+
+        <Box width="100%" className={classes.sliderContainer}>
           <div className={classes.rangeLabel}>
             <Typography>0%</Typography>
             <Typography>100%</Typography>

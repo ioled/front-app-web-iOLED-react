@@ -41,10 +41,11 @@ const styles = (theme) =>
   createStyles({
     timerContainer: {
       textAlign: 'center',
-      backgroundColor: '#323039',
+      // backgroundColor: '#323039',
       padding: theme.spacing(1),
       marginTop: '0px',
       display: 'flex',
+      borderRadius: '12px',
     },
     nameContainer: {
       fontSize: '12px',
@@ -75,6 +76,7 @@ const styles = (theme) =>
     },
   });
 
+  
 const StyledButton = styled(Button)`
   background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
   border-radius: 3px;
@@ -184,9 +186,9 @@ class TimerContainer extends Component {
     const {timerDuty, onTime} = this.state;
     return (
       <Box>
-        <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography>
-        <Box width="100%" className={classes.timerContainer} borderRadius={12}>
-          <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+        {/* <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography> */}
+        <Box width="100%" className={classes.timerContainer}>
+          {/* <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" /> */}
 
           <StyledButton
             onClick={() => {
@@ -194,7 +196,7 @@ class TimerContainer extends Component {
             }}
             type="submit"
           >
-            Configurar
+            Timer
           </StyledButton>
         </Box>
 

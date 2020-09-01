@@ -97,7 +97,9 @@ class StateContainer extends Component {
 
     return (
       <Box>
-        <Typography className={classes.nameContainer}>Estados</Typography>
+        {/* <Typography className={classes.nameContainer}>Estados</Typography> */}
+        <br></br>
+        <br></br>
         <Box width="100%" className={classes.stateContainer}>
           <Box width="33%" className={classes.powerContainer} borderRadius={12} border={0} {...defaultProps}>
             <SvgIcon component={ThunderIcon} viewBox="0 0 11 23" className={classes.stateIcon} />            
