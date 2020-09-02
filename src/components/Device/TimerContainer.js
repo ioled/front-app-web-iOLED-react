@@ -254,7 +254,7 @@ class TimerContainer extends Component {
           <FormControl className={classes.hourContainer}>
             <InputLabel className={classes.inputFormName}>Porcentaje</InputLabel>
             {/* <div className={classes.inputFormName}>Porcentaje</div> */}
-            <Select value={timerDuty} onChange={this.timerDutyChange}>
+            <Select value={timerDuty} onChange={this.timerDutyChange} className={classes.inputFormValue}>
               <MenuItem value={0}>0</MenuItem>
               <MenuItem value={0.1}>10</MenuItem>
               <MenuItem value={0.2}>20</MenuItem>
@@ -268,8 +268,10 @@ class TimerContainer extends Component {
               <MenuItem value={1}>100</MenuItem>
             </Select>
           </FormControl>
+          <br></br>
+          <br></br>
 
-          <Box className={classes.transitionBox}>
+          {/* <Box className={classes.transitionBox}>
             <FormControl>
               <FormLabel
                 component="legend"
@@ -286,7 +288,7 @@ class TimerContainer extends Component {
                 <FormControlLabel value={0} control={<Radio />} label="(No habilitar)" />
               </RadioGroup>
             </FormControl>
-          </Box>
+          </Box> */}
 
           <DialogActions>
             <Button

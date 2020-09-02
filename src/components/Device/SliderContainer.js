@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 // Action creators.
 import {updateDeviceConfig} from '../../actions';
 
+import ioledLogo from '../../images/logo.png';
+
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
 import {Box} from '@material-ui/core';
@@ -70,16 +72,17 @@ const styles = (theme) =>
 
 const IoledSwitch = withStyles((theme) => ({
   root: {
-    width: 150, //42, 202
-    height: 122, //26, 122
+    width: 100, //42, 202
+    height: 100, //26, 122
     padding: 0,
     margin: theme.spacing(1),
   },
   switchBase: {
-    padding: 1,
+    padding: 0,
+    color: '#ccfff1', //'#d2edf9',
     '&$checked': {
-      transform: 'translateX(29px)', //16px
-      color: theme.palette.common.white,
+      transform: 'translateX(0px)', //16px
+      color: 'white', //theme.palette.common.white,
       '& + $track': {
         backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
         opacity: 1,
@@ -92,19 +95,19 @@ const IoledSwitch = withStyles((theme) => ({
     },
   },
   thumb: {
-    width: 110, //24, 120
-    height: 110, //24
-    // marginTop: 5,
-    margin: 5,
-    backgroundImage: 'linear-gradient(90deg, #e4e3e8 0%, #ccfff1 100%)', //'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
-    // border: '2px solid currentColor',
-
+    width: 70, //24, 120, 110
+    height: 70, //24
+    margin: 15,
+    // backgroundImage: 'linear-gradient(90deg, #d2edf9 0%, #ccfff1 100%)', //'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)', `url(${ioledLogo})`,
+    // border: '1px solid white', //currentColor',
+    boxShadow: '0px 0px 15px #ffff00', //#ccff66',
   },
   track: {
     borderRadius: 130 / 2, // 26/2, 130/2
     // border: `1px solid ${theme.palette.grey[400]}`,
     backgroundColor: '#323039', //theme.palette.grey[150],
-    opacity: 1,
+    // backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+    // opacity: 0.2,
     transition: theme.transitions.create(['background-color', 'border']),
   },
   checked: {},
