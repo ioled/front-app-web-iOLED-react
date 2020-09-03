@@ -41,10 +41,11 @@ const styles = (theme) =>
   createStyles({
     timerContainer: {
       textAlign: 'center',
-      backgroundColor: '#323039',
+      // backgroundColor: '#323039',
       padding: theme.spacing(1),
-      marginTop: '0px',
+      margin: '0px 20px',
       display: 'flex',
+      borderRadius: '12px',
     },
     nameContainer: {
       fontSize: '12px',
@@ -53,14 +54,26 @@ const styles = (theme) =>
     },
     hourContainer: {
       marginTop: '10px',
-      backgroundColor: '#474453',
+      // backgroundColor: '#474453',
       color: 'white',
+      border: '1px solid #323039',
+      borderRadius: '5px',
     },
-    arrowIcon: {
-      marginTop: '10px',
+    inputForm: {
+      display: 'flex',
     },
-    timer: {
+    inputFormName: {
       color: 'white',
+      margin: '20px 20px',
+      display: 'block',
+      minWidth: '80px',
+      // fontSize: '16px',
+    },
+    inputFormValue: {
+      color: 'white',
+      display: 'block',
+      fontSize: '20px',
+      margin: '14px 0',
     },
     timerDialog: {
       textAlign: 'center',
@@ -75,12 +88,54 @@ const styles = (theme) =>
     },
   });
 
+
+  const TimerSwitch = withStyles((theme) => ({
+    root: {
+      width: 42, //42, 202
+      height: 26, //26, 122
+      padding: 0,
+      margin: theme.spacing(1),
+    },
+    switchBase: {
+      padding: 0,
+      color: '#323039', //'#d2edf9',
+      '&$checked': {
+        transform: 'translateX(16px)', //16px
+        color: theme.palette.common.white,
+        textShadow: 'none',
+        '& + $track': { 
+          backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+          opacity: 0.5,
+          border: 'none',
+        },
+      },
+      '&$focusVisible $thumb': {
+        // backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+        border: '6px solid #888fff',
+      },
+    },
+    thumb: {
+      width: 24, //24, 120, 110
+      height: 24, //24
+      margin: 1,
+      // boxShadow: '0px 0px 15px #ccfff1', //#ffff00', //#ccff66',
+    },
+    track: {
+      borderRadius: 26 / 2, // 26/2, 130/2
+      backgroundColor: '#000', //theme.palette.grey[150],
+      transition: theme.transitions.create(['background-color', 'border']),
+    },
+    checked: {},
+  }))(Switch);
+
+  // background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
 const StyledButton = styled(Button)`
-  background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
+  background: #323039;
   border-radius: 3px;
   padding: 0 30px;
   height: 48px;
   width: 120px;
+  color: white;
 `;
 
 const TimerDialog = withStyles((theme) => ({
@@ -89,6 +144,8 @@ const TimerDialog = withStyles((theme) => ({
     color: 'white',
     textAlign: 'center',
     justifyItems: 'center',
+    margin: 'auto',
+    padding: '20px'
   },
 }))(Dialog);
 
@@ -184,9 +241,12 @@ class TimerContainer extends Component {
     const {timerDuty, onTime} = this.state;
     return (
       <Box>
-        <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography>
-        <Box width="100%" className={classes.timerContainer} borderRadius={12}>
-          <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+        {/* <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography> */}
+        
+        <br></br>
+        <br></br>
+
+        <Box width="100%" className={classes.timerContainer}>
 
           <StyledButton
             onClick={() => {
@@ -194,7 +254,7 @@ class TimerContainer extends Component {
             }}
             type="submit"
           >
-            Configurar
+            Timer
           </StyledButton>
         </Box>
 
@@ -205,40 +265,59 @@ class TimerContainer extends Component {
         >
           <DialogTitle id="form-dialog-title">Configuración Timer</DialogTitle>
 
-          <Box className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField id="timeOn" label="Encendido" type="time" value={timerOn} onChange={this.timerOnChange} />
-              </form>
-            </div>
+          <TimerSwitch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+
+          <Box className={classes.hourContainer}>
+            <form noValidate className={classes.inputForm}>
+              <div className={classes.inputFormName}>Encendido</div>
+              <TextField 
+                InputProps={{className: classes.inputFormValue}} 
+                // autoFocus= 'true'
+                // InputLabelProps={{className: classes.timer}} 
+                id="timeOn" 
+                type="time" 
+                value={timerOn} 
+                onChange={this.timerOnChange} />
+            </form>
           </Box>
 
-          <Box className={classes.hourContainer} borderRadius={12}>
-            <div className={classes.timer}>
-              <form noValidate>
-                <TextField id="timeOff" label="Apagado" type="time" value={timerOff} onChange={this.timerOffChange} />
-              </form>
-            </div>
+          <Box className={classes.hourContainer}>
+            <form noValidate className={classes.inputForm}>
+              <div className={classes.inputFormName}>Apagado</div>
+              <TextField
+                InputProps={{className: classes.inputFormValue}}  
+                id="timeOff" 
+                type="time" 
+                value={timerOff} 
+                onChange={this.timerOffChange} />
+            </form>
           </Box>
 
-          <FormControl className={classes.hourContainer}>
-            <InputLabel>Porcentaje</InputLabel>
-            <Select value={timerDuty} onChange={this.timerDutyChange}>
-              <MenuItem value={0}>0</MenuItem>
-              <MenuItem value={0.1}>10</MenuItem>
-              <MenuItem value={0.2}>20</MenuItem>
-              <MenuItem value={0.3}>30</MenuItem>
-              <MenuItem value={0.4}>40</MenuItem>
-              <MenuItem value={0.5}>50</MenuItem>
-              <MenuItem value={0.6}>60</MenuItem>
-              <MenuItem value={0.7}>70</MenuItem>
-              <MenuItem value={0.8}>80</MenuItem>
-              <MenuItem value={0.9}>90</MenuItem>
-              <MenuItem value={1}>100</MenuItem>
-            </Select>
-          </FormControl>
+          <Box className={classes.hourContainer}>
+            <form className={classes.inputForm}>
+          
+              <div className={classes.inputFormName}>Porcentaje</div>
+              {/* <InputLabel className={classes.inputFormName}>Porcentaje</InputLabel> */}
+              {/* <div className={classes.inputFormName}>Porcentaje</div> */}
+              <Select value={timerDuty} onChange={this.timerDutyChange} className={classes.inputFormValue}>
+                <MenuItem value={0}>0 %</MenuItem>
+                <MenuItem value={0.1}>10 %</MenuItem>
+                <MenuItem value={0.2}>20 %</MenuItem>
+                <MenuItem value={0.3}>30 %</MenuItem>
+                <MenuItem value={0.4}>40 %</MenuItem>
+                <MenuItem value={0.5}>50 %</MenuItem>
+                <MenuItem value={0.6}>60 %</MenuItem>
+                <MenuItem value={0.7}>70 %</MenuItem>
+                <MenuItem value={0.8}>80 %</MenuItem>
+                <MenuItem value={0.9}>90 %</MenuItem>
+                <MenuItem value={1}>100 %</MenuItem>
+              </Select>
+            </form>
+          </Box>
+          <br></br>
+          <br></br>
 
-          <Box className={classes.transitionBox}>
+          {/* <Box className={classes.transitionBox}>
             <FormControl>
               <FormLabel
                 component="legend"
@@ -255,10 +334,9 @@ class TimerContainer extends Component {
                 <FormControlLabel value={0} control={<Radio />} label="(No habilitar)" />
               </RadioGroup>
             </FormControl>
-          </Box>
+          </Box> */}
 
           <DialogActions>
-            <StyledButton onClick={this.updateTimerConfig}>Editar</StyledButton>
             <Button
               style={{
                 color: 'white',
@@ -267,6 +345,7 @@ class TimerContainer extends Component {
             >
               Cancelar
             </Button>
+            <StyledButton onClick={this.updateTimerConfig}>Confirmar</StyledButton>
           </DialogActions>
         </TimerDialog>
 
