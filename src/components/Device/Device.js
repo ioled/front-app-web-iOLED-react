@@ -7,6 +7,7 @@ import AliasContainer from './AliasContainer';
 import SliderContainer from './SliderContainer';
 import TimerContainer from './TimerContainer';
 // import PlotContainer from './PlotContainer';
+import NewTimerView from './NewTimerView'
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
@@ -60,11 +61,13 @@ class Device extends Component {
             <AliasContainer index={this.props.index} />
             <StateContainer index={this.props.index} />
             <SliderContainer index={this.props.index} />
-            <TimerContainer index={this.props.index} />
+            {/* <TimerContainer index={this.props.index} /> */}
           </Fragment>
         );
       case 1:
-        return <Fragment></Fragment>;
+        return <Fragment>
+          <NewTimerView index= {this.props.index} />
+        </Fragment>;
     }
   }
 

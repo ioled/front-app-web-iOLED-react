@@ -123,7 +123,7 @@ class TimerContainer extends Component {
       timerOn,
       timerOff,
       event.target.checked,
-      timerDuty / 100,
+      timerDuty,
       parseInt(onTime),
       rampState,
       deviceID,
