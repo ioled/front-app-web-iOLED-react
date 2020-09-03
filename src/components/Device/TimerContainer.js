@@ -272,7 +272,7 @@ class TimerContainer extends Component {
               <div className={classes.inputFormName}>Encendido</div>
               <TextField 
                 InputProps={{className: classes.inputFormValue}} 
-                autoFocus= 'true'
+                // autoFocus= 'true'
                 // InputLabelProps={{className: classes.timer}} 
                 id="timeOn" 
                 type="time" 
@@ -345,7 +345,7 @@ class TimerContainer extends Component {
             >
               Cancelar
             </Button>
-            <StyledButton onClick={this.updateTimerConfig}>Aplicar</StyledButton>
+            <StyledButton onClick={this.updateTimerConfig}>Confirmar</StyledButton>
           </DialogActions>
         </TimerDialog>
 

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 // Action creators.
 import {updateDeviceConfig} from '../../actions';
 
-import ioledLogo from '../../images/logo.png';
+import ioledLogo from '../../images/logoButton.png';
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
@@ -100,6 +100,7 @@ const IoledSwitch = withStyles((theme) => ({
     height: 70, //24
     margin: 25,
     boxShadow: '0px 0px 15px #ccfff1', //#ffff00', //#ccff66',
+    backgroundImage:  `url(${ioledLogo})`,
   },
   track: {
     borderRadius: 130 / 2, // 26/2, 130/2
@@ -134,6 +135,9 @@ const IoledSlider = withStyles({
       width: 20,
       boxShadow: '0px 0px 6px #ccfff1',
     },
+    '& + $track': {
+      opacity: 0.1,
+    }
   },
   active: {},
   valueLabel: {
@@ -172,6 +176,8 @@ class SliderContainer extends Component {
     return {config: {duty, state, timerOn, timerOff, timerState, alias}, deviceID};
   };
 
+  
+  // Modify the state of LED.
   switchOn = async (event) => {
     this.setState({snackOpen: false});
     this.setState({trans: true});
