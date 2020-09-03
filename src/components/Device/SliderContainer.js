@@ -72,42 +72,38 @@ const styles = (theme) =>
 
 const IoledSwitch = withStyles((theme) => ({
   root: {
-    width: 100, //42, 202
-    height: 100, //26, 122
+    width: 120, //42, 202
+    height: 120, //26, 122
     padding: 0,
     margin: theme.spacing(1),
   },
   switchBase: {
     padding: 0,
-    color: '#ccfff1', //'#d2edf9',
+    color: '#323039', //'#d2edf9',
     '&$checked': {
       transform: 'translateX(0px)', //16px
-      color: 'white', //theme.palette.common.white,
-      '& + $track': {
+      color: theme.palette.common.white,
+      textShadow: 'none',
+      '& + $track': { 
         backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
-        opacity: 1,
+        opacity: 0.5,
         border: 'none',
       },
     },
     '&$focusVisible $thumb': {
-      backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+      // backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
       border: '6px solid #888fff',
     },
   },
   thumb: {
     width: 70, //24, 120, 110
     height: 70, //24
-    margin: 15,
-    // backgroundImage: 'linear-gradient(90deg, #d2edf9 0%, #ccfff1 100%)', //'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)', `url(${ioledLogo})`,
-    // border: '1px solid white', //currentColor',
-    boxShadow: '0px 0px 15px #ffff00', //#ccff66',
+    margin: 25,
+    boxShadow: '0px 0px 15px #ccfff1', //#ffff00', //#ccff66',
   },
   track: {
     borderRadius: 130 / 2, // 26/2, 130/2
-    // border: `1px solid ${theme.palette.grey[400]}`,
-    backgroundColor: '#323039', //theme.palette.grey[150],
-    // backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
-    // opacity: 0.2,
+    backgroundColor: '#000', //theme.palette.grey[150],
     transition: theme.transitions.create(['background-color', 'border']),
   },
   checked: {},
@@ -119,20 +115,33 @@ const IoledSlider = withStyles({
     height: 10, //10,
   },
   thumb: {
-    height: 24,
-    width: 24,
-    // backgroundColor: '#fff',
-    backgroundImage: 'linear-gradient(90deg, #e4e3e8 0%, #ccfff1 100%)', //backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
-    // border: '2px solid currentColor',
+    height: 20,
+    width: 20,
+    backgroundColor: 'white', 
+    boxShadow: '0px 0px 4px #ccfff1',
     marginTop: -8,
     marginLeft: -12,
     '&:focus,&:hover,&$active': {
       boxShadow: 'inherit',
     },
   },
+  disabled: {
+    '&$thumb': {
+      backgroundColor: '#323039', 
+      marginTop: -8,
+      marginLeft: -12,
+      height: 20,
+      width: 20,
+      boxShadow: '0px 0px 6px #ccfff1',
+    },
+  },
   active: {},
   valueLabel: {
     left: 'calc(-50% + 4px)',
+  },
+  markLabel: {
+    color: 'white',
+    fontSize: '14px',
   },
   rail: {
     backgroundImage: 'linear-gradient(90deg, #29ABE2 0%, #00EAA6 100%)',
@@ -211,12 +220,16 @@ class SliderContainer extends Component {
     const {state} = this.props;
     const {snackOpen, snackMessage, tempDuty, trans} = this.state;
 
+    const marks = [{
+        value: tempDuty,
+        label: Math.round(tempDuty*100) + '°C',
+      }]
+
     return (
       <Box width="100%">
         {/* <Typography className={classes.nameContainer}>Control de intensidad</Typography> */}
         <br></br>
-        <br></br>
-
+        
         <Box width="100%" className={classes.buttonContainer}>
           <div className={classes.onSwitch}>
             <IoledSwitch checked={state} onChange={this.switchOn} value="state" color="primary" />
@@ -234,13 +247,15 @@ class SliderContainer extends Component {
           <Box width="80%" className={classes.rangeElement}>
             <div className={classes.dutyContainer}>
               <IoledSlider
+                disabled={!state}
                 value={tempDuty}
                 min={0}
                 max={1}
                 step={0.05}
-                valueLabelDisplay="auto"
+                // valueLabelDisplay="auto"
                 onChange={this.sliderOnChangeHandler}
                 onChangeCommitted={this.sliderOnReleaseHandler}
+                marks={marks}
               />
             </div>
           </Box>

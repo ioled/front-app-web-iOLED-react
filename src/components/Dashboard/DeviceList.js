@@ -143,7 +143,7 @@ class DeviceList extends Component {
           >
             <Box className={classes.leftSubBox}>{device.alias}</Box>
             <Box className={classes.rightSubBox}>
-              <span className={classes.flexSpanDisabled}>{device.duty * 100}%</span>
+              <span className={classes.flexSpanDisabled}>{ Math.round(device.duty * 100) }%</span>
               <span className={classes.flexSpanDisabled}>|</span>
               <span className={classes.flexSpanDisabled}> {device.duty * device.power * device.state}W </span>
               <img src={grayCircle} height="18px" width="18px" alt="gray-circle" />

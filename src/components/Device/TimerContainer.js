@@ -66,6 +66,8 @@ const styles = (theme) =>
       color: 'white',
       margin: '20px 20px',
       display: 'block',
+      minWidth: '80px',
+      // fontSize: '16px',
     },
     inputFormValue: {
       color: 'white',
@@ -85,6 +87,46 @@ const styles = (theme) =>
       color: '#00EAA6',
     },
   });
+
+
+  const TimerSwitch = withStyles((theme) => ({
+    root: {
+      width: 42, //42, 202
+      height: 26, //26, 122
+      padding: 0,
+      margin: theme.spacing(1),
+    },
+    switchBase: {
+      padding: 0,
+      color: '#323039', //'#d2edf9',
+      '&$checked': {
+        transform: 'translateX(16px)', //16px
+        color: theme.palette.common.white,
+        textShadow: 'none',
+        '& + $track': { 
+          backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+          opacity: 0.5,
+          border: 'none',
+        },
+      },
+      '&$focusVisible $thumb': {
+        // backgroundImage: 'linear-gradient(180deg, #29ABE2 0%, #00EAA6 100%)',
+        border: '6px solid #888fff',
+      },
+    },
+    thumb: {
+      width: 24, //24, 120, 110
+      height: 24, //24
+      margin: 1,
+      // boxShadow: '0px 0px 15px #ccfff1', //#ffff00', //#ccff66',
+    },
+    track: {
+      borderRadius: 26 / 2, // 26/2, 130/2
+      backgroundColor: '#000', //theme.palette.grey[150],
+      transition: theme.transitions.create(['background-color', 'border']),
+    },
+    checked: {},
+  }))(Switch);
 
   // background: linear-gradient(180deg, #29abe2 0%, #00eaa6 100%);
 const StyledButton = styled(Button)`
@@ -223,7 +265,7 @@ class TimerContainer extends Component {
         >
           <DialogTitle id="form-dialog-title">Configuración Timer</DialogTitle>
 
-          <Switch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
+          <TimerSwitch checked={timerState} value="timerState" onChange={this.switchOnTimer} color="secondary" />
 
           <Box className={classes.hourContainer}>
             <form noValidate className={classes.inputForm}>
@@ -241,7 +283,7 @@ class TimerContainer extends Component {
 
           <Box className={classes.hourContainer}>
             <form noValidate className={classes.inputForm}>
-            <div className={classes.inputFormName}>Apagado</div>
+              <div className={classes.inputFormName}>Apagado</div>
               <TextField
                 InputProps={{className: classes.inputFormValue}}  
                 id="timeOff" 
@@ -251,23 +293,27 @@ class TimerContainer extends Component {
             </form>
           </Box>
 
-          <FormControl className={classes.hourContainer}>
-            <InputLabel className={classes.inputFormName}>Porcentaje</InputLabel>
-            {/* <div className={classes.inputFormName}>Porcentaje</div> */}
-            <Select value={timerDuty} onChange={this.timerDutyChange} className={classes.inputFormValue}>
-              <MenuItem value={0}>0</MenuItem>
-              <MenuItem value={0.1}>10</MenuItem>
-              <MenuItem value={0.2}>20</MenuItem>
-              <MenuItem value={0.3}>30</MenuItem>
-              <MenuItem value={0.4}>40</MenuItem>
-              <MenuItem value={0.5}>50</MenuItem>
-              <MenuItem value={0.6}>60</MenuItem>
-              <MenuItem value={0.7}>70</MenuItem>
-              <MenuItem value={0.8}>80</MenuItem>
-              <MenuItem value={0.9}>90</MenuItem>
-              <MenuItem value={1}>100</MenuItem>
-            </Select>
-          </FormControl>
+          <Box className={classes.hourContainer}>
+            <form className={classes.inputForm}>
+          
+              <div className={classes.inputFormName}>Porcentaje</div>
+              {/* <InputLabel className={classes.inputFormName}>Porcentaje</InputLabel> */}
+              {/* <div className={classes.inputFormName}>Porcentaje</div> */}
+              <Select value={timerDuty} onChange={this.timerDutyChange} className={classes.inputFormValue}>
+                <MenuItem value={0}>0 %</MenuItem>
+                <MenuItem value={0.1}>10 %</MenuItem>
+                <MenuItem value={0.2}>20 %</MenuItem>
+                <MenuItem value={0.3}>30 %</MenuItem>
+                <MenuItem value={0.4}>40 %</MenuItem>
+                <MenuItem value={0.5}>50 %</MenuItem>
+                <MenuItem value={0.6}>60 %</MenuItem>
+                <MenuItem value={0.7}>70 %</MenuItem>
+                <MenuItem value={0.8}>80 %</MenuItem>
+                <MenuItem value={0.9}>90 %</MenuItem>
+                <MenuItem value={1}>100 %</MenuItem>
+              </Select>
+            </form>
+          </Box>
           <br></br>
           <br></br>
 
