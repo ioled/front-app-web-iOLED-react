@@ -10,7 +10,7 @@ import {updateDeviceConfig} from '../../actions';
 import {withStyles, createStyles} from '@material-ui/core/styles';
 
 import {Box} from '@material-ui/core';
-import Switch from '@material-ui/core/Switch';
+// import Switch from '@material-ui/core/Switch';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -109,7 +109,6 @@ class AliasContainer extends Component {
   // Render the component.
   render() {
     const {classes} = this.props;
-    const {state} = this.props;
 
     const {snackOpen, snackMessage, alias, trans, online} = this.state;
 

@@ -10,7 +10,7 @@ import {Box} from '@material-ui/core';
 
 import Switch from '@material-ui/core/Switch';
 
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -26,13 +26,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+// import Radio from '@material-ui/core/Radio';
+// import RadioGroup from '@material-ui/core/RadioGroup';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControl from '@material-ui/core/FormControl';
+// import FormLabel from '@material-ui/core/FormLabel';
 
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 
@@ -238,7 +238,7 @@ class TimerContainer extends Component {
     const {timerState} = this.props;
 
     const {snackOpen, snackMessage, timerOn, timerOff, trans} = this.state;
-    const {timerDuty, onTime} = this.state;
+    const {timerDuty} = this.state;
     return (
       <Box>
         {/* <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography> */}
