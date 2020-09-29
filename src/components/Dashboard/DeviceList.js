@@ -26,7 +26,7 @@ const styles = (theme) => ({
   deviceListTitle: {
     marginTop: '2em',
     color: 'white',
-    fontSize: '1em',
+    fontSize: '16px', //'1em',
     textAlign: 'center',
   },
   deviceBoxEnabled: {
@@ -35,7 +35,7 @@ const styles = (theme) => ({
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
     paddingTop: '0.5em',
     paddingBottom: '0.5em',
-    borderRadius: '18px',
+    borderRadius: '10px', //'18px',
     display: 'flex',
     fontSize: '1.1em',
     width: '80%',
@@ -49,7 +49,7 @@ const styles = (theme) => ({
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)',
     paddingTop: '0.5em',
     paddingBottom: '0.5em',
-    borderRadius: '18px',
+    borderRadius: '10px', //'18px',
     display: 'flex',
     fontSize: '1.1em',
     width: '80%',
@@ -68,7 +68,7 @@ const styles = (theme) => ({
     width: '45%',
     height: '2em',
     textAlign: 'center',
-    borderRadius: '12px',
+    borderRadius: '5px', // '12px',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -84,14 +84,14 @@ const styles = (theme) => ({
     background: 'red',
     height: '3px',
     width: '3px',
-    borderRadius: '12px',
+    borderRadius: '5px', // '12px',
   },
   addDevice: {
     border: '2px solid #474453',
     background: 'transparent',
     width: '80%',
     height: '3em',
-    borderRadius: '12px',
+    borderRadius: '5px', //'12px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -143,7 +143,7 @@ class DeviceList extends Component {
           >
             <Box className={classes.leftSubBox}>{device.alias}</Box>
             <Box className={classes.rightSubBox}>
-              <span className={classes.flexSpanDisabled}>{device.duty * 100}%</span>
+              <span className={classes.flexSpanDisabled}>{ Math.round(device.duty * 100) }%</span>
               <span className={classes.flexSpanDisabled}>|</span>
               <span className={classes.flexSpanDisabled}> {device.duty * device.power * device.state}W </span>
               <img src={grayCircle} height="18px" width="18px" alt="gray-circle" />

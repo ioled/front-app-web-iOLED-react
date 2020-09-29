@@ -2,8 +2,8 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 
 // React components.
-import StateContainer from './StateContainer';
 import AliasContainer from './AliasContainer';
+import StateContainer from './StateContainer';
 import SliderContainer from './SliderContainer';
 import TimerContainer from './TimerContainer';
 // import PlotContainer from './PlotContainer';
