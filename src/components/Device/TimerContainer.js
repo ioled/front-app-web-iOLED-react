@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 
 // Action creators.
@@ -44,9 +44,7 @@ const styles = (theme) =>
       alignItems: 'center',
       justifyContent: 'center',
       textAlign: 'center',
-      // backgroundColor: '#323039',
       padding: theme.spacing(1),
-      margin: '0px 20px',
       borderRadius: '12px',
     },
     nameContainer: {
@@ -90,11 +88,10 @@ const styles = (theme) =>
     powerInput: {
       background: "#323039",
       borderRadius: "3px",
-      // padding: 0 30px,
       height: "48px",
       width: "120px",
       color: "white",
-      margin:"0 30px" 
+      marginLeft:"30px", 
     }
   });
 
@@ -243,12 +240,32 @@ class TimerContainer extends Component {
     this.setState({snackOpen: true, snackMessage: 'Timer configurado'});
   };
 
+  alphaRender() {
+    const {alpha} = this.props;
+    const {classes} = this.props;
+    if (alpha === true) {
+      return (
+      <Fragment>
+        <Button className={classes.powerInput}
+            onClick={() => {
+              this.setState({menu: 2});
+              this.props.changeMenu(2);
+              this.props.changeID(this.props.index);
+            }}>
+        <PowerIcon />
+        </Button>
+      </Fragment>
+      );
+    }
+  }
+
   render() {
     const {classes} = this.props;
     const {timerState} = this.props;
 
     const {snackOpen, snackMessage, timerOn, timerOff, trans} = this.state;
     const {timerDuty} = this.state;
+
     return (
       <Box>
         {/* <Typography className={classes.nameContainer}>Ciclo: Encendido/Apagado</Typography> */}
@@ -267,16 +284,9 @@ class TimerContainer extends Component {
             
             Timer
           </StyledButton>
-
-          <Button className={classes.powerInput}
-            onClick={() => {
-              this.setState({menu: 2});
-              this.props.changeMenu(2);
-              this.props.changeID(this.props.index);
-            }}>
-            <PowerIcon />
-          </Button>
-
+          
+          {this.alphaRender()}
+          
         </Box>
 
         <TimerDialog
