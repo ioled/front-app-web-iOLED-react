@@ -61,7 +61,7 @@ class Device extends Component {
             <AliasContainer index={this.props.index} />
             <StateContainer index={this.props.index} />
             <SliderContainer index={this.props.index} />
-            {/* <TimerContainer index={this.props.index} /> */}
+            <TimerContainer index={this.props.index} />
           </Fragment>
         );
       case 1:
