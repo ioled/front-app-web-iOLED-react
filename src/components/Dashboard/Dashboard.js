@@ -9,6 +9,7 @@ import Navbar from './Navbar';
 import DeviceList from './DeviceList';
 import Device from '../Device/Device';
 import PlotContainer from '../Device/PlotContainer';
+import PowerContainer from '../Device/PowerContainer';
 import SimpleBottomNavigation from './SimpleBottom';
 
 // Dashboard component styles.
@@ -51,6 +52,15 @@ class DashBoard extends Component {
             <Fragment>
               <Navbar />
               <PlotContainer index={id} />
+              <SimpleBottomNavigation index={0} />
+            </Fragment>
+          );
+        }
+        if (menu === 2) {
+          return (
+            <Fragment>
+              <Navbar />
+              <PowerContainer index={id}/>
               <SimpleBottomNavigation index={0} />
             </Fragment>
           );

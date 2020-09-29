@@ -179,6 +179,7 @@ class SliderContainer extends Component {
   
   // Modify the state of LED.
   switchOn = async (event) => {
+    console.log(event.target.checked);
     this.setState({snackOpen: false});
     this.setState({trans: true});
     const {duty, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
@@ -228,12 +229,11 @@ class SliderContainer extends Component {
 
     const marks = [{
         value: tempDuty,
-        label: Math.round(tempDuty*100) + '°C',
+        label: Math.round(tempDuty*100) + '%',
       }]
 
     return (
       <Box width="100%">
-        {/* <Typography className={classes.nameContainer}>Control de intensidad</Typography> */}
         <br></br>
         
         <Box width="100%" className={classes.buttonContainer}>
@@ -243,10 +243,6 @@ class SliderContainer extends Component {
         </Box>
 
         <Box width="100%" className={classes.sliderContainer}>
-          {/* <div className={classes.rangeLabel}>
-            <Typography>0%</Typography>
-            <Typography>100%</Typography>
-          </div> */}
           <Box width="10%" className={classes.rangeElement}>
             <div><Typography>0%</Typography></div>
           </Box>
@@ -258,7 +254,6 @@ class SliderContainer extends Component {
                 min={0}
                 max={1}
                 step={0.05}
-                // valueLabelDisplay="auto"
                 onChange={this.sliderOnChangeHandler}
                 onChangeCommitted={this.sliderOnReleaseHandler}
                 marks={marks}

@@ -2,15 +2,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 // Action creators.
-import {updateDeviceConfig} from '../../actions';
+import {updateDeviceConfig, changeMenu, changeID} from '../../actions';
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
 import {Box} from '@material-ui/core';
 
 import Switch from '@material-ui/core/Switch';
-
-// import Typography from '@material-ui/core/Typography';
 
 import TextField from '@material-ui/core/TextField';
 
@@ -19,6 +17,8 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+
+import PowerIcon from '@material-ui/icons/Power';
 
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components';
@@ -40,11 +40,13 @@ import Select from '@material-ui/core/Select';
 const styles = (theme) =>
   createStyles({
     timerContainer: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       textAlign: 'center',
       // backgroundColor: '#323039',
       padding: theme.spacing(1),
       margin: '0px 20px',
-      display: 'flex',
       borderRadius: '12px',
     },
     nameContainer: {
@@ -54,7 +56,6 @@ const styles = (theme) =>
     },
     hourContainer: {
       marginTop: '10px',
-      // backgroundColor: '#474453',
       color: 'white',
       border: '1px solid #323039',
       borderRadius: '5px',
@@ -86,6 +87,15 @@ const styles = (theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#00EAA6',
     },
+    powerInput: {
+      background: "#323039",
+      borderRadius: "3px",
+      // padding: 0 30px,
+      height: "48px",
+      width: "120px",
+      color: "white",
+      margin:"0 30px" 
+    }
   });
 
 
@@ -254,8 +264,19 @@ class TimerContainer extends Component {
             }}
             type="submit"
           >
+            
             Timer
           </StyledButton>
+
+          <Button className={classes.powerInput}
+            onClick={() => {
+              this.setState({menu: 2});
+              this.props.changeMenu(2);
+              this.props.changeID(this.props.index);
+            }}>
+            <PowerIcon />
+          </Button>
+
         </Box>
 
         <TimerDialog
@@ -317,25 +338,6 @@ class TimerContainer extends Component {
           <br></br>
           <br></br>
 
-          {/* <Box className={classes.transitionBox}>
-            <FormControl>
-              <FormLabel
-                component="legend"
-                style={{
-                  color: 'white',
-                }}
-              >
-                Tiempo de encendido
-              </FormLabel>
-              <RadioGroup  value={onTime} onChange={this.onTimeChange}>
-                <FormControlLabel value={1} control={<Radio />} label="1 min" />
-                <FormControlLabel value={5} control={<Radio />} label="5 min" />
-                <FormControlLabel value={10} control={<Radio />} label="10 min" />
-                <FormControlLabel value={0} control={<Radio />} label="(No habilitar)" />
-              </RadioGroup>
-            </FormControl>
-          </Box> */}
-
           <DialogActions>
             <Button
               style={{
@@ -378,4 +380,4 @@ const mapStateToProps = (state, ownProps) => {
   return state.devices[ownProps.index];
 };
 
-export default connect(mapStateToProps, {updateDeviceConfig})(withStyles(styles)(TimerContainer));
+export default connect(mapStateToProps, {updateDeviceConfig, changeMenu, changeID})(withStyles(styles)(TimerContainer));
