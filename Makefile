@@ -24,6 +24,11 @@ deploy-dev dev:
 	@echo "[DEV][App Engine Deployment] Deploying App"
 	@gcloud app deploy app-dev.yaml
 
+deploy-testing testing:
+	@npm run build
+	@echo "[DEV][App Engine Deployment] Deploying App"
+	@gcloud app deploy app-testing.yaml
+
 run r:
 	@echo "[Running] Running frontend service"
 	@PORT=$(PORT)

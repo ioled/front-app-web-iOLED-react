@@ -24,7 +24,8 @@ export const fetchUser = () => async (dispatch) => {
       const res = await axios.get(`${IOLED_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
-      dispatch({type: 'FETCH_USER', payload: res.data.currentUser});
+      // console.log(res.data[0]);
+      dispatch({type: 'FETCH_USER', payload: res.data[0]});
       return;
     } catch (err) {
       console.log(err.response);
@@ -44,7 +45,8 @@ export const fetchDevices = () => async (dispatch) => {
       const res = await axios.get(`${IOLED_URL}${query}`, {
         headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
       });
-      dispatch({type: 'LIST_DEVICES', payload: res.data.userDevices});
+      // console.log(res.data.devices);
+      dispatch({type: 'LIST_DEVICES', payload: res.data.devices});
       return;
     } catch (err) {
       console.log(err.response);
@@ -113,8 +115,6 @@ export const getDeviceState = (device, index) => async (dispatch) => {
   }
   await sleep(5000);
 };
-
-
 
 /**
  * Change alias ID

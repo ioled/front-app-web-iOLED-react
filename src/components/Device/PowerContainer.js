@@ -13,7 +13,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 
 // material-ui components.
 import {withStyles, createStyles} from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
+import {Box} from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
@@ -54,29 +54,41 @@ const styles = (theme) =>
   });
 
 class PowerContainer extends Component {
-    // Component state.
-    state = {
-      snackMessage: '',
-      gpio1: this.props.gpio1,
-      gpio2: this.props.gpio2,
-      gpio3: this.props.gpio3,
-      gpio4: this.props.gpio4,
-      trans: false,
-      open: false,
-    };
+  // Component state.
+  state = {
+    snackMessage: '',
+    gpio1: this.props.gpio1,
+    gpio2: this.props.gpio2,
+    gpio3: this.props.gpio3,
+    gpio4: this.props.gpio4,
+    trans: false,
+    open: false,
+  };
 
-    // Map device state to configuration readable by the backend.
-    stateToConfig = (duty, state, gpio1, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID) => {
-      return {config: {duty, state, gpio1, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias}, deviceID};
-    };
+  // Map device state to configuration readable by the backend.
+  stateToConfig = (duty, state, gpio1, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID) => {
+    return {config: {duty, state, gpio1, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias}, deviceID};
+  };
 
   // Modify the state of GPIO 1.
   switchGPIO1 = async (event) => {
-    console.log(event.target.checked);
+    // console.log(event.target.checked);
     this.setState({snackOpen: false});
     this.setState({trans: true});
     const {duty, state, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, event.target.checked, gpio2, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID);
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      event.target.checked,
+      gpio2,
+      gpio3,
+      gpio4,
+      timerOn,
+      timerOff,
+      timerState,
+      alias,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});
@@ -88,7 +100,19 @@ class PowerContainer extends Component {
     this.setState({snackOpen: false});
     this.setState({trans: true});
     const {duty, state, gpio1, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, gpio1, event.target.checked, gpio3, gpio4, timerOn, timerOff, timerState, alias, deviceID);
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      gpio1,
+      event.target.checked,
+      gpio3,
+      gpio4,
+      timerOn,
+      timerOff,
+      timerState,
+      alias,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});
@@ -100,7 +124,19 @@ class PowerContainer extends Component {
     this.setState({snackOpen: false});
     this.setState({trans: true});
     const {duty, state, gpio1, gpio2, gpio4, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, gpio1, gpio2, event.target.checked, gpio4, timerOn, timerOff, timerState, alias, deviceID);
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      gpio1,
+      gpio2,
+      event.target.checked,
+      gpio4,
+      timerOn,
+      timerOff,
+      timerState,
+      alias,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});
@@ -112,28 +148,48 @@ class PowerContainer extends Component {
     this.setState({snackOpen: false});
     this.setState({trans: true});
     const {duty, state, gpio1, gpio2, gpio3, timerOn, timerOff, timerState, alias, deviceID, index} = this.props;
-    const deviceConfig = this.stateToConfig(duty, state, gpio1, gpio2, gpio3, event.target.checked, timerOn, timerOff, timerState, alias, deviceID);
+    const deviceConfig = this.stateToConfig(
+      duty,
+      state,
+      gpio1,
+      gpio2,
+      gpio3,
+      event.target.checked,
+      timerOn,
+      timerOff,
+      timerState,
+      alias,
+      deviceID,
+    );
     await this.props.updateDeviceConfig(deviceConfig, index);
     this.setState({trans: false});
     this.setState({snackOpen: true, snackMessage: 'Actualizado'});
   };
 
   render() {
-
     // Get the styles classes from props.
     const {classes} = this.props;
     const {gpio1, gpio2, gpio3, gpio4} = this.props;
     const {snackOpen, snackMessage, trans} = this.state;
 
-    
     return (
       <Grid container justify="center">
         <Typography className={classes.grid}>Dispositivos</Typography>
-        
-        <Box className={classes.box}><EmojiObjectsIcon></EmojiObjectsIcon>Plug 1 <Switch checked={gpio1} onChange={this.switchGPIO1} value="gpio1"/></Box>
-        <Box className={classes.box}><ToysIcon></ToysIcon>Plug 2 <Switch checked={gpio2} onChange={this.switchGPIO2} value="gpio2"/></Box>
-        <Box className={classes.box}><AcUnitIcon></AcUnitIcon>Plug 3 <Switch checked={gpio3} onChange={this.switchGPIO3} value="gpio3"/></Box>
-        <Box className={classes.box}><AllInclusiveIcon></AllInclusiveIcon>Plug 4 <Switch checked={gpio4} onChange={this.switchGPIO4} value="gpio4"/></Box>
+
+        <Box className={classes.box}>
+          <EmojiObjectsIcon></EmojiObjectsIcon>Plug 1{' '}
+          <Switch checked={gpio1} onChange={this.switchGPIO1} value="gpio1" />
+        </Box>
+        <Box className={classes.box}>
+          <ToysIcon></ToysIcon>Plug 2 <Switch checked={gpio2} onChange={this.switchGPIO2} value="gpio2" />
+        </Box>
+        <Box className={classes.box}>
+          <AcUnitIcon></AcUnitIcon>Plug 3 <Switch checked={gpio3} onChange={this.switchGPIO3} value="gpio3" />
+        </Box>
+        <Box className={classes.box}>
+          <AllInclusiveIcon></AllInclusiveIcon>Plug 4{' '}
+          <Switch checked={gpio4} onChange={this.switchGPIO4} value="gpio4" />
+        </Box>
 
         <Snackbar
           anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
@@ -156,12 +212,9 @@ class PowerContainer extends Component {
           <CircularProgress color="inherit" />
         </Backdrop>
       </Grid>
-
-      
     );
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => {
   return state.devices[ownProps.index];
